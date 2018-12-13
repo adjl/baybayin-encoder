@@ -3,6 +3,8 @@
 		"path": "."
 	}],
 	"settings": {
-		"terminal.integrated.cwd": "."
+		"terminal.integrated.cwd": ".",
+		"python.linting.flake8Enabled": false,
+		"python.pythonPath": "/home/adjl/.local/share/virtualenvs/BaybayinTransliterator-zuJIeYLf/bin/python"
 	}
 }
