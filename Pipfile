@@ -6,6 +6,12 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 hypothesis = "*"
+pep8 = "*"
+pydocstyle = "*"
+prospector = "*"
+pylama = "*"
+pylint = "*"
+autopep8 = "*"
 
 [packages]
 
