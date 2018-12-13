@@ -2,7 +2,6 @@ from collections import deque
 from collections import namedtuple
 
 
-whitespace = ' '
 vowels = 'aeiou'
 diphthongs = ('ng', 'ts')
 state_names = ('whitespace', 'vowel', 'consonant', 'diphthong')
@@ -10,7 +9,7 @@ states = namedtuple('State', state_names)(*state_names)
 
 
 def get_state(char, next_char):
-    if char == whitespace:
+    if char == ' ':
         return states.whitespace
     if char in vowels:
         return states.vowel
@@ -34,7 +33,7 @@ def syllabilise(string):
         syllable = deque(string.popleft())
         state = get_state(syllable[0], string[0] if string else None)
         if state == states.whitespace:
-            while string and string[0] == whitespace:
+            while string and string[0] == ' ':
                 string.popleft()
         if state == states.diphthong:
             if string:
