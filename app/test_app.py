@@ -5,6 +5,10 @@ def test_syllabilise_empty_string():
     assert syllabilise('') == []
 
 
+def test_syllabilise_lowercase():
+    assert syllabilise('A') == ['a']
+
+
 def test_syllabilise_single_syllable():
     assert syllabilise('a') == ['a']
     assert syllabilise('b') == ['b']

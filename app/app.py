@@ -8,7 +8,7 @@ def preprocess_string(function):
     def _preprocess_string(string):
         if not string:
             return []
-        return list(function(deque(string)))
+        return list(function(deque(map(str.lower, string))))
     return _preprocess_string
 
 
