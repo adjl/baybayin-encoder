@@ -30,6 +30,7 @@ def test_syllabilise_multiple_syllables():
 
 
 def test_syllabilise_multiple_syllables_diphthong_ng():
+    assert syllabilise('gn') == ['g', 'n']
     assert syllabilise('ang') == ['a', 'ng']
     assert syllabilise('bng') == ['b', 'ng']
     assert syllabilise('ngb') == ['ng', 'b']
@@ -39,9 +40,37 @@ def test_syllabilise_multiple_syllables_diphthong_ng():
 
 
 def test_syllabilise_multiple_syllables_diphthong_ts():
+    assert syllabilise('st') == ['s', 't']
     assert syllabilise('ats') == ['a', 'ts']
     assert syllabilise('bts') == ['b', 'ts']
     assert syllabilise('tsb') == ['ts', 'b']
     assert syllabilise('bats') == ['ba', 'ts']
     assert syllabilise('tsab') == ['tsa', 'b']
     assert syllabilise('tsts') == ['ts', 'ts']
+
+
+def test_syllabilise_whitespace():
+    assert syllabilise(' ') == [' ']
+    assert syllabilise('  ') == [' ']
+    assert syllabilise(' a') == [' ', 'a']
+    assert syllabilise('a ') == ['a', ' ']
+    assert syllabilise('b a') == ['b', ' ', 'a']
+    assert syllabilise('ba ba') == ['ba', ' ', 'ba']
+
+
+def test_syllabilise_whitespace_diphthong_ng():
+    assert syllabilise(' ng') == [' ', 'ng']
+    assert syllabilise('ng ') == ['ng', ' ']
+    assert syllabilise('ng n') == ['ng', ' ', 'n']
+    assert syllabilise('ng ng') == ['ng', ' ', 'ng']
+    assert syllabilise('n gn') == ['n', ' ', 'g', 'n']
+    assert syllabilise('ngn g') == ['ng', 'n', ' ', 'g']
+
+
+def test_syllabilise_whitespace_diphthong_ts():
+    assert syllabilise(' ts') == [' ', 'ts']
+    assert syllabilise('ts ') == ['ts', ' ']
+    assert syllabilise('ts t') == ['ts', ' ', 't']
+    assert syllabilise('ts ts') == ['ts', ' ', 'ts']
+    assert syllabilise('t st') == ['t', ' ', 's', 't']
+    assert syllabilise('tst s') == ['ts', 't', ' ', 's']
