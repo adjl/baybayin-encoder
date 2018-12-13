@@ -1,45 +1,48 @@
 from collections import deque
 from collections import namedtuple
+from functools import wraps
+
+
+def preprocess_string(function):
+    @wraps(function)
+    def _preprocess_string(string):
+        if not string:
+            return []
+        return list(function(deque(string)))
+    return _preprocess_string
 
 
 vowels = 'aeiou'
 diphthongs = ('ng', 'ts')
-state_names = ('whitespace', 'vowel', 'consonant', 'diphthong')
-states = namedtuple('State', state_names)(*state_names)
+
+type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
+char_type = namedtuple('CharType', type_labels)(*type_labels)
 
 
-def get_state(char, next_char):
+def get_char_type(char, next_char):
     if char == ' ':
-        return states.whitespace
+        return char_type.whitespace
     if char in vowels:
-        return states.vowel
+        return char_type.vowel
     if next_char is not None and char + next_char in diphthongs:
-        return states.diphthong
-    return states.consonant
+        return char_type.diphthong
+    return char_type.consonant
 
 
-def preprocess_input(function):
-    def _preprocess_input(string):
-        if not string:
-            return []
-        return list(function(deque(string)))
-    return _preprocess_input
-
-
-@preprocess_input
+@preprocess_string
 def syllabilise(string):
     syllables = deque()
     while string:
         syllable = deque(string.popleft())
-        state = get_state(syllable[0], string[0] if string else None)
-        if state == states.whitespace:
+        c_type = get_char_type(syllable[0], string[0] if string else None)
+        if c_type == char_type.whitespace:
             while string and string[0] == ' ':
                 string.popleft()
-        if state == states.diphthong:
+        if c_type == char_type.diphthong:
             if string:
                 syllable.append(string.popleft())
-            state = states.consonant
-        if state == states.consonant:
+            c_type = char_type.consonant
+        if c_type == char_type.consonant:
             if string and string[0] in vowels:
                 syllable.append(string.popleft())
         syllables.append(''.join(syllable))
