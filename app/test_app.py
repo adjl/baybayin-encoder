@@ -17,7 +17,7 @@ def test_syllabilise_single_syllable():
     assert syllabilise('ba') == ['ba']
 
 
-def test_syllabilise_single_syllable_diphthongs():
+def test_syllabilise_single_syllable_diphthong():
     assert syllabilise('ng') == ['ng']
     assert syllabilise('ts') == ['ts']
     assert syllabilise('nga') == ['nga']
