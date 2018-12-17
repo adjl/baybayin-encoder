@@ -20,6 +20,7 @@ def preprocess_input(_func=None, transform=lambda x: x):
 
 vowels = 'aeiou'
 diphthongs = ('ng', 'ts')
+modifiers = '\\:'
 
 type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
 char_type = namedtuple('CharType', type_labels)(*type_labels)
@@ -53,3 +54,17 @@ def syllabilise(string):
                 syllable.append(string.popleft())
         syllables.append(''.join(syllable))
     return syllables
+
+
+def parse_syllable(syllable):
+    if syllable[-1] == ' ':
+        return '', '', ''
+
+    def find_index(i, func):
+        while i < len(syllable) and func(syllable[i]):
+            i += 1
+        return i
+
+    cons_i = find_index(0, lambda char: char not in vowels + modifiers)
+    vow_i = find_index(cons_i, lambda char: char in vowels)
+    return syllable[:cons_i], syllable[cons_i:vow_i], syllable[vow_i:]
