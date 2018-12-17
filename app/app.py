@@ -1,8 +1,8 @@
 import functools
 
+from collections import defaultdict
 from collections import deque
 from collections import namedtuple
-from functools import wraps
 
 
 def preprocess_input(_func=None, transform=lambda x: x):
@@ -20,6 +20,7 @@ def preprocess_input(_func=None, transform=lambda x: x):
 
 vowels = 'aeiou'
 diphthongs = ('ng', 'ts')
+trailing, non_trailing = '/', '='
 modifiers = '\\:'
 
 type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
@@ -68,3 +69,48 @@ def parse_syllable(syllable):
     cons_i = find_index(0, lambda char: char not in vowels + modifiers)
     vow_i = find_index(cons_i, lambda char: char in vowels)
     return syllable[:cons_i], syllable[cons_i:vow_i], syllable[vow_i:]
+
+
+def is_whitespace(syllable):
+    consonant, vowel, modifier = parse_syllable(syllable)
+    return consonant == vowel == modifier == ''
+
+
+class SymbolTable(defaultdict):
+    def __missing__(self, key):
+        self[key] = key
+        return key
+
+
+symbol_table = SymbolTable()
+symbol_table.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
+symbol_table.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
+symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
+
+
+@preprocess_input
+def transform(syllables):
+    transformed_syllables = deque()
+    while syllables:
+
+        if (len(syllables) >= 4 and syllables[0] == syllables[2] and
+                syllables[1] == syllables[3]):
+            for _ in range(2):
+                syllables.popleft()
+            syllables.insert(2, '\\')
+
+        if (len(syllables) >= 2 and syllables[0][-1] in vowels and
+                syllables[0][0] == syllables[1][0]):
+            vwls = ''.join([syllables[i][-1] for i in range(2)])
+            syllables.popleft()
+            syllables[0] = ''.join([syllables[0], symbol_table[vwls]])
+
+        consonant, vowel, modifier = parse_syllable(syllables.popleft())
+        if consonant and not vowel:
+            modifier = (trailing
+                        if not syllables or is_whitespace(syllables[0])
+                        else non_trailing)
+
+        syllable = ''.join([consonant, vowel, modifier])
+        transformed_syllables.append(syllable if syllable else ' ')
+    return transformed_syllables
