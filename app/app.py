@@ -1,15 +1,21 @@
+import functools
+
 from collections import deque
 from collections import namedtuple
 from functools import wraps
 
 
-def preprocess_string(function):
-    @wraps(function)
-    def _preprocess_string(string):
-        if not string:
-            return []
-        return list(function(deque(map(str.lower, string))))
-    return _preprocess_string
+def preprocess_input(_func=None, transform=lambda x: x):
+    def _preprocess_input(func):
+        @functools.wraps(func)
+        def __preprocess_input(inputs):
+            if not inputs:
+                return []
+            return list(func(deque(map(transform, inputs))))
+        return __preprocess_input
+    if _func is None:
+        return _preprocess_input
+    return _preprocess_input(_func)
 
 
 vowels = 'aeiou'
@@ -29,7 +35,7 @@ def get_char_type(char, next_char):
     return char_type.consonant
 
 
-@preprocess_string
+@preprocess_input(transform=str.lower)
 def syllabilise(string):
     syllables = deque()
     while string:
