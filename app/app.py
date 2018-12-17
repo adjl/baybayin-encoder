@@ -88,6 +88,12 @@ symbol_table.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
 symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 
 
+def get_consonant_modifier(syllables):
+    if not syllables or is_whitespace(syllables[0]):
+        return trailing
+    return non_trailing
+
+
 @preprocess_input
 def transform(syllables):
     transformed_syllables = deque()
@@ -107,9 +113,7 @@ def transform(syllables):
 
         consonant, vowel, modifier = parse_syllable(syllables.popleft())
         if consonant and not vowel:
-            modifier = (trailing
-                        if not syllables or is_whitespace(syllables[0])
-                        else non_trailing)
+            modifier = get_consonant_modifier(syllables)
 
         syllable = ''.join([consonant, vowel, modifier])
         transformed_syllables.append(syllable if syllable else ' ')
