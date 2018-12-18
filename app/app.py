@@ -88,6 +88,22 @@ symbol_table.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
 symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 
 
+def double_words(syllables):
+    if (len(syllables) >= 4 and syllables[0] == syllables[2] and
+            syllables[1] == syllables[3]):
+        for _ in range(2):
+            syllables.popleft()
+        syllables.insert(2, '\\')
+
+
+def double_syllables(syllables):
+    if (len(syllables) >= 2 and syllables[0][-1] in vowels and
+            syllables[0][0] == syllables[1][0]):
+        end_vowels = ''.join([syllables[i][-1] for i in range(2)])
+        syllables.popleft()
+        syllables[0] = ''.join([syllables[0], symbol_table[end_vowels]])
+
+
 def get_consonant_modifier(syllables):
     if not syllables or is_whitespace(syllables[0]):
         return trailing
@@ -98,23 +114,11 @@ def get_consonant_modifier(syllables):
 def transform(syllables):
     transformed_syllables = deque()
     while syllables:
-
-        if (len(syllables) >= 4 and syllables[0] == syllables[2] and
-                syllables[1] == syllables[3]):
-            for _ in range(2):
-                syllables.popleft()
-            syllables.insert(2, '\\')
-
-        if (len(syllables) >= 2 and syllables[0][-1] in vowels and
-                syllables[0][0] == syllables[1][0]):
-            vwls = ''.join([syllables[i][-1] for i in range(2)])
-            syllables.popleft()
-            syllables[0] = ''.join([syllables[0], symbol_table[vwls]])
-
+        double_words(syllables)
+        double_syllables(syllables)
         consonant, vowel, modifier = parse_syllable(syllables.popleft())
         if consonant and not vowel:
             modifier = get_consonant_modifier(syllables)
-
         syllable = ''.join([consonant, vowel, modifier])
         transformed_syllables.append(syllable if syllable else ' ')
     return transformed_syllables
