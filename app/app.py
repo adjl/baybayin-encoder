@@ -1,40 +1,13 @@
-import functools
-
-from collections import defaultdict
 from collections import deque
-from collections import namedtuple
 
-
-def preprocess_input(_func=None, transform=lambda x: x):
-    def _preprocess_input(func):
-        @functools.wraps(func)
-        def __preprocess_input(inputs):
-            if not inputs:
-                return []
-            return list(func(deque(map(transform, inputs))))
-        return __preprocess_input
-    if _func is None:
-        return _preprocess_input
-    return _preprocess_input(_func)
-
-
-vowels = 'aeiou'
-diphthongs = ('ng', 'ts')
-trailing, non_trailing = '/', '='
-modifiers = '\\:'
-
-type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
-char_type = namedtuple('CharType', type_labels)(*type_labels)
-
-
-def get_char_type(char, next_char):
-    if char == ' ':
-        return char_type.whitespace
-    if char in vowels:
-        return char_type.vowel
-    if next_char is not None and char + next_char in diphthongs:
-        return char_type.diphthong
-    return char_type.consonant
+from app.chars import char_type
+from app.chars import get_char_type
+from app.chars import modifiers
+from app.chars import non_trailing
+from app.chars import symbol_table
+from app.chars import trailing
+from app.chars import vowels
+from app.util import preprocess_input
 
 
 @preprocess_input(transform=str.lower)
@@ -57,6 +30,20 @@ def syllabilise(string):
     return syllables
 
 
+@preprocess_input
+def transform(syllables):
+    transformed_syllables = deque()
+    while syllables:
+        double_words(syllables)
+        double_syllables(syllables)
+        consonant, vowel, modifier = parse_syllable(syllables.popleft())
+        if consonant and not vowel:
+            modifier = get_consonant_modifier(syllables)
+        syllable = ''.join([consonant, vowel, modifier])
+        transformed_syllables.append(syllable if syllable else ' ')
+    return transformed_syllables
+
+
 def parse_syllable(syllable):
     if syllable[-1] == ' ':
         return '', '', ''
@@ -69,23 +56,6 @@ def parse_syllable(syllable):
     cons_i = find_index(0, lambda char: char not in vowels + modifiers)
     vow_i = find_index(cons_i, lambda char: char in vowels)
     return syllable[:cons_i], syllable[cons_i:vow_i], syllable[vow_i:]
-
-
-def is_whitespace(syllable):
-    consonant, vowel, modifier = parse_syllable(syllable)
-    return consonant == vowel == modifier == ''
-
-
-class SymbolTable(defaultdict):
-    def __missing__(self, key):
-        self[key] = key
-        return key
-
-
-symbol_table = SymbolTable()
-symbol_table.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
-symbol_table.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
-symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 
 
 def double_words(syllables):
@@ -105,20 +75,10 @@ def double_syllables(syllables):
 
 
 def get_consonant_modifier(syllables):
+    def is_whitespace(syllable):
+        consonant, vowel, modifier = parse_syllable(syllable)
+        return consonant == vowel == modifier == ''
+
     if not syllables or is_whitespace(syllables[0]):
         return trailing
     return non_trailing
-
-
-@preprocess_input
-def transform(syllables):
-    transformed_syllables = deque()
-    while syllables:
-        double_words(syllables)
-        double_syllables(syllables)
-        consonant, vowel, modifier = parse_syllable(syllables.popleft())
-        if consonant and not vowel:
-            modifier = get_consonant_modifier(syllables)
-        syllable = ''.join([consonant, vowel, modifier])
-        transformed_syllables.append(syllable if syllable else ' ')
-    return transformed_syllables
