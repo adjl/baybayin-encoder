@@ -1,6 +1,6 @@
-from app import parse_syllable
-from app import syllabilise
-from app import transform
+from app.app import parse_syllable
+from app.app import syllabilise
+from app.app import transform
 
 
 def test_syllabilise_empty_string():
