@@ -11,7 +11,7 @@ from app.util import preprocess_input
 
 
 @preprocess_input(transform=str.lower)
-def syllabilise(string):
+def tokenise(string):
     syllables = deque()
     while string:
         syllable = deque(string.popleft())
