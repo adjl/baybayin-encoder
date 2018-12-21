@@ -16,8 +16,8 @@ symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 
 vowels = 'aeiou'
 diphthongs = ('ng', 'ts')
-trailing, non_trailing = '/', '='
 modifiers = '\\:'
+trailing, non_trailing = '/', '='
 
 type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
 char_type = namedtuple('CharType', type_labels)(*type_labels)
