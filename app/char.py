@@ -1,3 +1,5 @@
+import string
+
 from collections import defaultdict
 
 
@@ -16,7 +18,7 @@ symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 trailing, non_trailing = '/', '='
 
 chartype = {
-    'whitespace': ' \t\n',
+    'whitespace': string.whitespace,
     'vowel': 'aeiou',
     'diphthong': ['ng', 'ts'],
     'modifier': '\\:'}
