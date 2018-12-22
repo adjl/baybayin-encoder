@@ -1,31 +1,28 @@
 from collections import deque
 
-from app.chars import char_type
-from app.chars import get_char_type
-from app.chars import modifiers
+from app.chars import chartype
+from app.chars import get_chartype
 from app.chars import non_trailing
 from app.chars import symbol_table
 from app.chars import trailing
-from app.chars import vowels
 from app.util import preprocess_input
 
 
 @preprocess_input(transform=str.lower)
-def tokenise(string):
+def tokenise(chars):
     syllables = deque()
-    while string:
-        syllable = deque(string.popleft())
-        c_type = get_char_type(syllable[0], string[0] if string else None)
-        if c_type == char_type.whitespace:
-            while string and string[0] == ' ':
-                string.popleft()
-        if c_type == char_type.diphthong:
-            if string:
-                syllable.append(string.popleft())
-            c_type = char_type.consonant
-        if c_type == char_type.consonant:
-            if string and string[0] in vowels:
-                syllable.append(string.popleft())
+    while chars:
+        syllable = deque(chars.popleft())
+        ctype = get_chartype(syllable[0], chars[0] if chars else None)
+        if ctype == 'whitespace':
+            while chars and chars[0] == ' ':
+                chars.popleft()
+        if ctype == 'diphthong':
+            syllable.append(chars.popleft())
+            ctype = 'consonant'
+        if ctype == 'consonant':
+            if chars and chars[0] in chartype['vowel']:
+                syllable.append(chars.popleft())
         syllables.append(''.join(syllable))
     return syllables
 
@@ -53,8 +50,8 @@ def parse_syllable(syllable):
             i += 1
         return i
 
-    cons_i = find_index(0, lambda char: char not in vowels + modifiers)
-    vow_i = find_index(cons_i, lambda char: char in vowels)
+    cons_i = find_index(0, lambda char: char not in chartype['modified_vowel'])
+    vow_i = find_index(cons_i, lambda char: char in chartype['vowel'])
     return syllable[:cons_i], syllable[cons_i:vow_i], syllable[vow_i:]
 
 
@@ -67,7 +64,7 @@ def double_words(syllables):
 
 
 def double_syllables(syllables):
-    if (len(syllables) >= 2 and syllables[0][-1] in vowels and
+    if (len(syllables) >= 2 and syllables[0][-1] in chartype['vowel'] and
             syllables[0][0] == syllables[1][0]):
         end_vowels = ''.join([syllables[i][-1] for i in range(2)])
         syllables.popleft()

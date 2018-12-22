@@ -1,5 +1,4 @@
 from collections import defaultdict
-from collections import namedtuple
 
 
 class SymbolTable(defaultdict):
@@ -14,20 +13,26 @@ symbol_table.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
 symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 
 
-vowels = 'aeiou'
-diphthongs = ('ng', 'ts')
-modifiers = '\\:'
 trailing, non_trailing = '/', '='
 
-type_labels = ('whitespace', 'vowel', 'consonant', 'diphthong')
-char_type = namedtuple('CharType', type_labels)(*type_labels)
+chartype = {
+    'whitespace': ' ',
+    'vowel': 'aeiou',
+    'diphthong': ['ng', 'ts'],
+    'modifier': '\\:'}
+chartype['modified_vowel'] = ''.join([chartype['vowel'], chartype['modifier']])
 
 
-def get_char_type(char, next_char):
-    if char == ' ':
-        return char_type.whitespace
-    if char in vowels:
-        return char_type.vowel
-    if next_char is not None and char + next_char in diphthongs:
-        return char_type.diphthong
-    return char_type.consonant
+def concat(char, next_char):
+    if next_char is None:
+        return char
+    return ''.join([char, next_char])
+
+
+def get_chartype(char, next_char):
+    for name in ['whitespace', 'vowel']:
+        if char in chartype[name]:
+            return name
+    if concat(char, next_char) in chartype['diphthong']:
+        return 'diphthong'
+    return 'consonant'
