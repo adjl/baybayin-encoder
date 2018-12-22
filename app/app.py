@@ -1,10 +1,10 @@
 from collections import deque
 
-from app.chars import chartype
-from app.chars import get_chartype
-from app.chars import non_trailing
-from app.chars import symbol_table
-from app.chars import trailing
+from app.char import chartype
+from app.char import get_chartype
+from app.char import non_trailing
+from app.char import symbol_table
+from app.char import trailing
 from app.util import dequeify_input
 
 
