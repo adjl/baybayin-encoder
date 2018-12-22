@@ -55,6 +55,10 @@ def test_tokenise_multiple_syllables_diphthong_ts():
 
 def test_tokenise_whitespace():
     assert tokenise(' ') == [' ']
+    assert tokenise('\t') == ['\t']
+    assert tokenise('\n') == ['\n']
+    assert tokenise('\t\t') == ['\t']
+    assert tokenise('\n\n') == ['\n']
     assert tokenise('  ') == [' ']
     assert tokenise(' a') == [' ', 'a']
     assert tokenise('a ') == ['a', ' ']

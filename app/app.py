@@ -15,7 +15,7 @@ def tokenise(chars):
         syllable = deque(chars.popleft())
         ctype = get_chartype(syllable[0], chars[0] if chars else None)
         if ctype == 'whitespace':
-            while chars and chars[0] == ' ':
+            while chars and syllable[0] == chars[0]:
                 chars.popleft()
         if ctype == 'diphthong':
             syllable.append(chars.popleft())

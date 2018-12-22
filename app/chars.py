@@ -16,7 +16,7 @@ symbol_table.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 trailing, non_trailing = '/', '='
 
 chartype = {
-    'whitespace': ' ',
+    'whitespace': ' \t\n',
     'vowel': 'aeiou',
     'diphthong': ['ng', 'ts'],
     'modifier': '\\:'}
