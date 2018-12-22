@@ -5,6 +5,18 @@ def test_tokenise_empty_string():
     assert tokenise('') == []
 
 
+def test_tokenise_whitespace():
+    assert tokenise(' ') == [' ']
+    assert tokenise('\t') == ['\t']
+    assert tokenise('\n') == ['\n']
+
+
+def test_tokenise_contiguous_whitespace():
+    assert tokenise('  ') == [' ']
+    assert tokenise('\t\t') == ['\t']
+    assert tokenise('\n\n') == ['\n']
+
+
 def test_tokenise_lowercase():
     assert tokenise('A') == ['a']
 
@@ -53,20 +65,14 @@ def test_tokenise_multiple_syllables_diphthong_ts():
     assert tokenise('tsts') == ['ts', 'ts']
 
 
-def test_tokenise_whitespace():
-    assert tokenise(' ') == [' ']
-    assert tokenise('\t') == ['\t']
-    assert tokenise('\n') == ['\n']
-    assert tokenise('\t\t') == ['\t']
-    assert tokenise('\n\n') == ['\n']
-    assert tokenise('  ') == [' ']
+def test_tokenise_words():
     assert tokenise(' a') == [' ', 'a']
     assert tokenise('a ') == ['a', ' ']
     assert tokenise('b a') == ['b', ' ', 'a']
     assert tokenise('ba ba') == ['ba', ' ', 'ba']
 
 
-def test_tokenise_whitespace_diphthong_ng():
+def test_tokenise_words_diphthong_ng():
     assert tokenise(' ng') == [' ', 'ng']
     assert tokenise('ng ') == ['ng', ' ']
     assert tokenise('ng n') == ['ng', ' ', 'n']
@@ -75,7 +81,7 @@ def test_tokenise_whitespace_diphthong_ng():
     assert tokenise('ngn g') == ['ng', 'n', ' ', 'g']
 
 
-def test_tokenise_whitespace_diphthong_ts():
+def test_tokenise_words_diphthong_ts():
     assert tokenise(' ts') == [' ', 'ts']
     assert tokenise('ts ') == ['ts', ' ']
     assert tokenise('ts t') == ['ts', ' ', 't']
