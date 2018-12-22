@@ -5,10 +5,10 @@ from app.chars import get_chartype
 from app.chars import non_trailing
 from app.chars import symbol_table
 from app.chars import trailing
-from app.util import preprocess_input
+from app.util import dequeify_input
 
 
-@preprocess_input(transform=str.lower)
+@dequeify_input(transform=str.lower)
 def tokenise(chars):
     syllables = deque()
     while chars:
@@ -27,7 +27,7 @@ def tokenise(chars):
     return syllables
 
 
-@preprocess_input
+@dequeify_input
 def transform(syllables):
     transformed_syllables = deque()
     while syllables:
