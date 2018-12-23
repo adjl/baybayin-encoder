@@ -29,8 +29,6 @@ num_consonants = 21
 num_syllables = num_consonants * num_vowels
 num_single_syllables = num_consonants * (num_vowels + 1) + num_vowels + 1
 
-derandomised = settings(derandomize=True)
-
 
 def num_examples(num):
     return min(settings.default.max_examples, num)
@@ -41,51 +39,50 @@ def test_tokenise_empty_string():
 
 
 @given(whitespace_strategy)
-@settings(derandomised, max_examples=num_examples(num_whitespace))
+@settings(max_examples=num_examples(num_whitespace))
 def test_tokenise_whitespace(whitespace):
     assert tokenise(whitespace) == [whitespace]
 
 
 @given(whitespace_strategy)
-@settings(derandomised, max_examples=num_examples(num_whitespace))
+@settings(max_examples=num_examples(num_whitespace))
 def test_tokenise_contiguous_whitespace(whitespace):
     assert tokenise(whitespace * 2) == [whitespace]
 
 
 @given(uppercase_strategy)
-@settings(derandomised, max_examples=num_examples(num_single_syllables))
+@settings(max_examples=num_examples(num_single_syllables))
 def test_tokenise_uppercase(uppercase):
     assert tokenise(uppercase) == tokenise(uppercase.lower())
 
 
 @given(vowel_strategy)
-@settings(derandomised, max_examples=num_examples(num_vowels))
+@settings(max_examples=num_examples(num_vowels))
 def test_tokenise_single_syllable_vowel(vowel):
     assert tokenise(vowel) == [vowel]
 
 
 @given(consonant_strategy)
-@settings(derandomised, max_examples=num_examples(num_consonants))
+@settings(max_examples=num_examples(num_consonants))
 def test_tokenise_single_syllable_consonant(consonant):
     assert tokenise(consonant) == [consonant]
 
 
 @given(syllable_strategy)
-@settings(derandomised, max_examples=num_examples(num_syllables))
+@settings(max_examples=num_examples(num_syllables))
 def test_tokenise_single_syllable(syllable):
     assert tokenise(syllable) == [syllable]
 
 
 @given(vowel_strategy, vowel_strategy)
-@settings(derandomised, max_examples=num_examples(num_vowels * num_vowels))
+@settings(max_examples=num_examples(num_vowels * num_vowels))
 def test_tokenise_multiple_syllables_vowels(vowel1, vowel2):
     syllables = ''.join([vowel1, vowel2])
     assert tokenise(syllables) == [vowel1, vowel2]
 
 
 @given(consonant_strategy, consonant_strategy)
-@settings(derandomised,
-          max_examples=num_examples(num_consonants * num_consonants))
+@settings(max_examples=num_examples(num_consonants * num_consonants))
 def test_tokenise_multiple_syllables_consonants(consonant1, consonant2):
     syllables = ''.join([consonant1, consonant2])
     assume(re.fullmatch(diphthong_pattern, syllables) is None)
@@ -93,14 +90,14 @@ def test_tokenise_multiple_syllables_consonants(consonant1, consonant2):
 
 
 @given(vowel_strategy, consonant_strategy)
-@settings(derandomised, max_examples=num_examples(num_vowels * num_consonants))
+@settings(max_examples=num_examples(num_vowels * num_consonants))
 def test_tokenise_multiple_syllables_vowel_consonant(vowel, consonant):
     syllables = ''.join([vowel, consonant])
     assert tokenise(syllables) == [vowel, consonant]
 
 
 @given(vowel_strategy, syllable_strategy)
-@settings(derandomised, max_examples=num_examples(num_vowels * num_syllables))
+@settings(max_examples=num_examples(num_vowels * num_syllables))
 def test_tokenise_multiple_syllables_vowel_syllable(vowel, syllable):
     syllables = ''.join([vowel, syllable])
     assert tokenise(syllables) == [vowel, syllable]
@@ -109,8 +106,7 @@ def test_tokenise_multiple_syllables_vowel_syllable(vowel, syllable):
 
 
 @given(consonant_strategy, syllable_strategy)
-@settings(derandomised,
-          max_examples=num_examples(num_consonants * num_syllables))
+@settings(max_examples=num_examples(num_consonants * num_syllables))
 def test_tokenise_multiple_syllables_consonants_syllable(consonant, syllable):
     syllables = ''.join([consonant, syllable])
     assume(re.fullmatch(syllable_pattern, syllables) is None)
@@ -120,8 +116,7 @@ def test_tokenise_multiple_syllables_consonants_syllable(consonant, syllable):
 
 
 @given(syllable_strategy, syllable_strategy)
-@settings(derandomised,
-          max_examples=num_examples(num_syllables * num_syllables))
+@settings(max_examples=num_examples(num_syllables * num_syllables))
 def test_tokenise_multiple_syllables(syllable1, syllable2):
     syllables = ''.join([syllable1, syllable2])
     assert tokenise(syllables) == [syllable1, syllable2]
