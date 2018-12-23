@@ -13,9 +13,8 @@ syllable_pattern = re.compile(r'([bdf-hj-npr-tvwyz]|ñ|ng|ts)[aeiou]')
 
 
 whitespace_strategy = from_regex(r'(?a)\s', fullmatch=True)
-uppercase_strategy = from_regex(
-    r'[AEIOU]|([BDF-HJ-NPR-TVWYZ]|Ñ|NG|TS)[AEIOU]?',
-    fullmatch=True)
+uppercase_strategy = from_regex(r'([BDF-HJ-NPR-TVWYZ]|Ñ|NG|TS)?[AEIOU]?',
+                                fullmatch=True)
 
 vowel_strategy = from_regex(r'[aeiou]', fullmatch=True)
 consonant_strategy = from_regex(r'[bdf-hj-npr-tvwyz]|ñ|ng|ts',
@@ -28,7 +27,7 @@ num_whitespace = 6
 num_vowels = 5
 num_consonants = 21
 num_syllables = num_consonants * num_vowels
-num_single_syllables = num_consonants * (num_vowels + 1) + num_vowels
+num_single_syllables = num_consonants * (num_vowels + 1) + num_vowels + 1
 
 derandomised = settings(derandomize=True)
 
@@ -55,8 +54,8 @@ def test_tokenise_contiguous_whitespace(whitespace):
 
 @given(uppercase_strategy)
 @settings(derandomised, max_examples=num_examples(num_single_syllables))
-def test_tokenise_lowercase(uppercase):
-    assert all([char.islower() for char in tokenise(uppercase)])
+def test_tokenise_uppercase(uppercase):
+    assert tokenise(uppercase) == tokenise(uppercase.lower())
 
 
 @given(vowel_strategy)
