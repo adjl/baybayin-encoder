@@ -2,6 +2,7 @@ from collections import deque
 
 from app.char import chars
 from app.char import get_char_type
+from app.char import parse_syllable
 from app.char import symbol_map
 from app.util import dequeify_input
 
@@ -39,20 +40,6 @@ def transform(syllables):
     return transformed_syllables
 
 
-def parse_syllable(syllable):
-    if syllable[-1] == ' ':
-        return '', '', ''
-
-    def find_index(i, func):
-        while i < len(syllable) and func(syllable[i]):
-            i += 1
-        return i
-
-    cons_i = find_index(0, lambda char: char not in chars['vowel+modifier'])
-    vow_i = find_index(cons_i, lambda char: char in chars['vowel'])
-    return syllable[:cons_i], syllable[cons_i:vow_i], syllable[vow_i:]
-
-
 def double_words(syllables):
     if (len(syllables) >= 4 and syllables[0] == syllables[2] and
             syllables[1] == syllables[3]):
@@ -73,7 +60,6 @@ def get_consonant_modifier(syllables):
     def is_whitespace(syllable):
         consonant, vowel, modifier = parse_syllable(syllable)
         return consonant == vowel == modifier == ''
-
     if not syllables or is_whitespace(syllables[0]):
         return symbol_map['trailing_consonant']
     return symbol_map['non_trailing_consonant']

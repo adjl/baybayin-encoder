@@ -3,66 +3,113 @@ import re
 from hypothesis import assume
 from hypothesis import given
 from hypothesis import settings
-from hypothesis.strategies import from_regex
 
 from app.app import tokenise
+from tests.util import num_chars
+from tests.util import num_examples
+from tests.util import strategies
+from tests.util import syllable_re
 
 
-syllable_pattern = re.compile(r'([bdf-hj-npr-tvwyz]|ñ|ng|ts)?[aeiou]?')
-syllable_strategy = from_regex(syllable_pattern, fullmatch=True)
-num_syllables = 131  # 21 consonants * 5 vowels + 21 + 5
+def test_tokenise_empty_seq():
+    assert not tokenise('')
 
 
-def num_examples(num):
-    # return num  # Uncomment to generate all test data. Warning: slow! (~50s)
-    return min(settings.default.max_examples, num)
-
-
-def test_tokenise_empty_string():
-    assert tokenise('') == []
-
-
-@given(from_regex(r'(?a)\s', fullmatch=True))
-@settings(max_examples=6)  # \s regex: len([ \t\n\r\f\v]) = 6
+@given(strategies['whitespace'])
+@settings(max_examples=num_chars['whitespace'])
 def test_tokenise_whitespace(whitespace):
     assert tokenise(whitespace) == [whitespace]
 
 
-@given(from_regex(r'(?a)\s', fullmatch=True))
-@settings(max_examples=6)  # \s regex: len([ \t\n\r\f\v]) = 6
+@given(strategies['whitespace'])
+@settings(max_examples=num_chars['whitespace'])
 def test_tokenise_contiguous_whitespace(whitespace):
     assert tokenise(whitespace * 2) == [whitespace]
 
 
-@given(syllable_strategy)
-@settings(max_examples=num_examples(num_syllables))
+@given(strategies['punctuation'])
+@settings(max_examples=num_chars['punctuation'])
+def test_tokenise_punctuation(punctuation):
+    assert tokenise(punctuation) == [punctuation]
+
+
+@given(strategies['punctuation'], strategies['punctuation'])
+@settings(max_examples=num_chars['punctuation'] ** 2)
+def test_tokenise_multiple_punctuation(punctuation1, punctuation2):
+    punctuation = ''.join([punctuation1, punctuation2])
+    assert tokenise(punctuation) == [punctuation1, punctuation2]
+
+
+@given(strategies['punctuation'], strategies['whitespace'])
+@settings(max_examples=num_chars['punctuation'] * num_chars['whitespace'])
+def test_tokenise_punctuation_followed_by_whitespace(punctuation, whitespace):
+    formatting = ''.join([punctuation, whitespace])
+    assert tokenise(formatting) == [punctuation, whitespace]
+
+
+@given(strategies['syllable'])
+@settings(max_examples=num_examples(num_chars['syllable']))
 def test_tokenise_uppercase(lowercase):
     assume(lowercase)
     assert tokenise(lowercase.upper()) == tokenise(lowercase)
 
 
-@given(syllable_strategy)
-@settings(max_examples=num_examples(num_syllables))
+@given(strategies['syllable'])
+@settings(max_examples=num_examples(num_chars['syllable']))
 def test_tokenise_single_syllable(syllable):
     assume(syllable)
     assert tokenise(syllable) == [syllable]
 
 
-@given(syllable_strategy, syllable_strategy)
-@settings(max_examples=num_examples(num_syllables * num_syllables))
-def test_tokenise_multiple_syllables(syllable1, syllable2):
+@given(strategies['syllable'], strategies['syllable'])
+@settings(max_examples=num_examples(num_chars['syllable'] ** 2))
+def test_tokenise_multiple_syllable_word(syllable1, syllable2):
     assume(syllable1 and syllable2)
-    syllables = ''.join([syllable1, syllable2])
-    assume(re.fullmatch(syllable_pattern, syllables) is None)
-    assert tokenise(syllables) == [syllable1, syllable2]
+    word = ''.join([syllable1, syllable2])
+    assume(re.fullmatch(syllable_re, word) is None)
+    assert tokenise(word) == [syllable1, syllable2]
 
 
-@given(syllable_strategy, syllable_strategy)
-@settings(max_examples=num_examples(num_syllables * num_syllables))
+@given(strategies['syllable'], strategies['syllable'])
+@settings(max_examples=num_examples(num_chars['syllable'] ** 2))
 def test_tokenise_words(syllable1, syllable2):
+    assume(syllable1 or syllable2)
     words = ''.join([syllable1, ' ', syllable2])
     assert(tokenise(words) ==
            [word for word in [syllable1, ' ', syllable2] if word])
-    words = ''.join([syllable2, ' ', syllable1])
+
+
+@given(strategies['syllable'], strategies['whitespace'],
+       strategies['syllable'])
+@settings(max_examples=num_examples(
+    num_chars['syllable'] ** 2 * num_chars['whitespace']))
+def test_tokenise_words_with_whitespace(syllable1, whitespace, syllable2):
+    assume(syllable1 or syllable2)
+    words = ''.join([syllable1, whitespace, syllable2])
     assert(tokenise(words) ==
-           [word for word in [syllable2, ' ', syllable1] if word])
+           [word for word in [syllable1, whitespace, syllable2] if word])
+
+
+@given(strategies['syllable'], strategies['punctuation'],
+       strategies['syllable'])
+@settings(max_examples=num_examples(
+    num_chars['syllable'] ** 2 * num_chars['punctuation']))
+def test_tokenise_words_with_punctuation(syllable1, punctuation, syllable2):
+    assume(syllable1 or syllable2)
+    words = ''.join([syllable1, punctuation, syllable2])
+    assert(tokenise(words) ==
+           [word for word in [syllable1, punctuation, syllable2] if word])
+
+
+@given(strategies['syllable'], strategies['punctuation'],
+       strategies['whitespace'], strategies['syllable'])
+@settings(max_examples=num_examples(
+    num_chars['syllable'] ** 2 * num_chars['punctuation'] *
+    num_chars['whitespace']))
+def test_tokenise_phrase_with_punctuation(
+        syllable1, punctuation, whitespace, syllable2):
+    assume(syllable1 or syllable2)
+    phrase = ''.join([syllable1, punctuation, whitespace, syllable2])
+    assert(tokenise(phrase) ==
+           [word for word in
+            [syllable1, punctuation, whitespace, syllable2] if word])
