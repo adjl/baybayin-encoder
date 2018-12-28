@@ -3,6 +3,52 @@ import string
 from collections import defaultdict
 
 
+class Syllable:
+
+    def __init__(self, syllable):
+        consonant, vowel, modifier = parse_syllable(syllable)
+        self._consonant = consonant
+        self._vowel = vowel
+        self._modifier = modifier
+
+    def __repr__(self):
+        return '({},{},{})'.format(self.consonant, self.vowel, self.modifier)
+
+    def __eq__(self, syllable):
+        return (self.consonant == syllable.consonant and
+                self.vowel == syllable.vowel and
+                self.modifier == syllable.modifier)
+
+    def is_consonant(self):
+        return self.consonant and not self.vowel
+
+    def is_vowel(self):
+        return not self.consonant and self.vowel
+
+    def is_syllable(self):
+        return self.consonant and self.vowel
+
+    @property
+    def consonant(self):
+        return self._consonant
+
+    @property
+    def vowel(self):
+        return self._vowel
+
+    @property
+    def modifier(self):
+        return self._modifier
+
+    @vowel.setter
+    def vowel(self, vowel):
+        self._vowel = vowel
+
+    @modifier.setter
+    def modifier(self, modifier):
+        self._modifier = modifier
+
+
 class SymbolMap(defaultdict):
     def __missing__(self, key):
         self[key] = key
@@ -39,12 +85,14 @@ symbol_map.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
 symbol_map.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
 symbol_map.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
 symbol_map.update({'trailing_consonant': '/', 'non_trailing_consonant': '='})
+symbol_map.update({'word_doubling': '\\', 'consonant_stop': '-'})
 
 
 chars = {
     'whitespace': string.whitespace,
     'punctuation': string.punctuation,
+    'digits': string.digits,
     'vowel': 'aeiou',
     'diphthong': ['ng', 'ts']}
 chars['non-consonant'] = ''.join(
-    [chars[name] for name in ['whitespace', 'punctuation', 'vowel']])
+    [chars[name] for name in ['whitespace', 'punctuation', 'digits', 'vowel']])

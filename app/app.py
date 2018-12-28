@@ -1,8 +1,9 @@
 from collections import deque
+from itertools import islice
 
+from app.char import Syllable
 from app.char import chars
 from app.char import get_char_type
-from app.char import parse_syllable
 from app.char import symbol_map
 from app.util import dequeify_input
 
@@ -26,40 +27,79 @@ def tokenise(seq):
     return syllables
 
 
-@dequeify_input
+@dequeify_input(transform=Syllable)
 def transform(syllables):
-    transformed_syllables = deque()
+    transformed = deque()
     while syllables:
-        double_words(syllables)
-        double_syllables(syllables)
-        consonant, vowel, modifier = parse_syllable(syllables.popleft())
-        if consonant and not vowel:
-            modifier = get_consonant_modifier(syllables)
-        syllable = ''.join([consonant, vowel, modifier])
-        transformed_syllables.append(syllable if syllable else ' ')
-    return transformed_syllables
-
-
-def double_words(syllables):
-    if (len(syllables) >= 4 and syllables[0] == syllables[2] and
-            syllables[1] == syllables[3]):
-        for _ in range(2):
+        if is_word_doubling(list(islice(syllables, 0, 4))):
+            for _ in range(2):
+                syllables.popleft()
+            syllables.insert(2, Syllable(symbol_map['word_doubling']))
+        syllable_slice = list(islice(syllables, 0, 2))
+        if (is_vowel_doubling(syllable_slice) or
+                is_syllable_doubling(syllable_slice)):
             syllables.popleft()
-        syllables.insert(2, '\\')
+            syllables[0].modifier = symbol_map[get_vowels(syllable_slice)]
+        if is_consonant_stop(list(islice(syllables, 0, 2))):
+            syllable = syllables.popleft()
+            if syllable.modifier == ':':
+                syllable.modifier = ';'
+            else:
+                syllable.modifier += symbol_map['consonant_stop']
+            syllables.popleft()
+            syllables.appendleft(syllable)
+        if is_trailing_consonant(list(islice(syllables, 0, 2))):
+            syllables[0].modifier += symbol_map['trailing_consonant']
+        if is_non_trailing_consonant(list(islice(syllables, 0, 2))):
+            syllables[0].modifier += symbol_map['non_trailing_consonant']
+        transformed.append(syllables.popleft())
+    return transformed
 
 
-def double_syllables(syllables):
-    if (len(syllables) >= 2 and syllables[0][-1] in chars['vowel'] and
-            syllables[0][0] == syllables[1][0]):
-        end_vowels = ''.join([syllables[i][-1] for i in range(2)])
-        syllables.popleft()
-        syllables[0] = ''.join([syllables[0], symbol_map[end_vowels]])
+def is_word_doubling(syllables):
+    if len(syllables) < 4:
+        return False
+    return ((syllables[0], syllables[1]) == (syllables[2], syllables[3]) and
+            syllables[0] != syllables[1])
 
 
-def get_consonant_modifier(syllables):
-    def is_whitespace(syllable):
-        consonant, vowel, modifier = parse_syllable(syllable)
-        return consonant == vowel == modifier == ''
-    if not syllables or is_whitespace(syllables[0]):
-        return symbol_map['trailing_consonant']
-    return symbol_map['non_trailing_consonant']
+vowel_repetitions = set(['aa', 'ii', 'ee', 'uu', 'oo', 'ie', 'ei', 'uo', 'ou'])
+
+
+def is_vowel_doubling(syllables):
+    if len(syllables) < 2:
+        return False
+    return (syllables[0].is_vowel() and syllables[1].is_vowel() and
+            syllables[0] == syllables[1])
+
+
+def is_syllable_doubling(syllables):
+    if len(syllables) < 2:
+        return False
+    return (syllables[0].is_syllable() and syllables[1].is_syllable() and
+            syllables[0].consonant == syllables[1].consonant and
+            get_vowels(syllables) in vowel_repetitions)
+
+
+def is_consonant_stop(syllables):
+    if len(syllables) < 2:
+        return False
+    return (syllables[0].is_syllable() and syllables[1].is_consonant() and
+            syllables[0].consonant == syllables[1].consonant)
+
+
+def is_trailing_consonant(syllables):
+    if not syllables[0].is_consonant():
+        return False
+    return len(syllables) < 2 or syllables[1] == Syllable(' ')
+
+
+def is_non_trailing_consonant(syllables):
+    if not syllables[0].is_consonant() or len(syllables) < 2:
+        return False
+    return syllables[1] != Syllable(' ')
+
+
+def get_vowels(syllables):
+    return ''.join(
+        [syllable.vowel for syllable in syllables if syllable.vowel])
