@@ -4,16 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
+autopep8 = "*"
 hypothesis = "*"
 pep8 = "*"
-pydocstyle = "*"
 prospector = "*"
+pydocstyle = "*"
 pylama = "*"
 pylint = "*"
-autopep8 = "*"
+pytest = "*"
 
 [packages]
+bottle = "*"
 
 [requires]
 python_version = "3.7"
