@@ -8,13 +8,29 @@
 		"python.linting.pep8Enabled": false,
 		"python.linting.pylintArgs": [
 			"--disable=C0103,C0111,W0511,W0621,W1202",
-			"--extension-pkg-whitelist=bottle",
-			"--ignored-modules=bottle",
 			"--include-naming-hint=y",
 			"--output-format=colorized",
 			"--reports=y",
 			"--score=y",
-			"--suggestion-mode=y"
+			"--suggestion-mode=y",
+
+			"--extension-pkg-whitelist=bottle",
+			"--ignored-modules=bottle"
+		],
+		"python.sortImports.args": [
+			"--atomic",
+			"--balanced",
+			"--combine-as",
+			"--combine-star",
+			"--force-single-line-imports",
+			"--force-sort-within-sections",
+			"--line-width=80",
+			"--lines-after-imports=2",
+			"--lines-between-types=1",
+			"--order-by-type",
+			"--wrap-length=80",
+
+			"--thirdparty=hypothesis"
 		],
 		"python.pythonPath": "/home/adjl/.local/share/virtualenvs/BaybayinTransliterator-zuJIeYLf/bin/python"
 	}
