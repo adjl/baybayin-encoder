@@ -6,6 +6,16 @@
 		"terminal.integrated.cwd": ".",
 		"python.linting.flake8Enabled": false,
 		"python.linting.pep8Enabled": false,
+		"python.linting.pylintArgs": [
+			"--disable=C0103,C0111,W0511,W0621,W1202",
+			"--extension-pkg-whitelist=bottle",
+			"--ignored-modules=bottle",
+			"--include-naming-hint=y",
+			"--output-format=colorized",
+			"--reports=y",
+			"--score=y",
+			"--suggestion-mode=y"
+		],
 		"python.pythonPath": "/home/adjl/.local/share/virtualenvs/BaybayinTransliterator-zuJIeYLf/bin/python"
 	}
 }
