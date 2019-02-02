@@ -70,20 +70,11 @@ def test_tokenise_multiple_syllable_word(syllable1, syllable2):
     assert tokenise(word) == [syllable1, syllable2]
 
 
-@given(strategies['syllable'], strategies['syllable'])
-@settings(max_examples=num_examples(num_chars['syllable'] ** 2))
-def test_tokenise_words(syllable1, syllable2):
-    assume(syllable1 or syllable2)
-    words = ''.join([syllable1, ' ', syllable2])
-    assert(tokenise(words) ==
-           [word for word in [syllable1, ' ', syllable2] if word])
-
-
 @given(strategies['syllable'], strategies['whitespace'],
        strategies['syllable'])
 @settings(max_examples=num_examples(
     num_chars['syllable'] ** 2 * num_chars['whitespace']))
-def test_tokenise_words_with_whitespace(syllable1, whitespace, syllable2):
+def test_tokenise_words(syllable1, whitespace, syllable2):
     assume(syllable1 or syllable2)
     words = ''.join([syllable1, whitespace, syllable2])
     assert(tokenise(words) ==
