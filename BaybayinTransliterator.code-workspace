@@ -24,7 +24,6 @@
 			"--combine-as",
 			"--combine-star",
 			"--force-single-line-imports",
-			"--force-sort-within-sections",
 			"--line-width=80",
 			"--lines-after-imports=2",
 			"--lines-between-types=1",
