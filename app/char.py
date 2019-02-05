@@ -1,7 +1,5 @@
 import string
 
-from collections import defaultdict
-
 
 chars = {
     'whitespace': string.whitespace,
@@ -27,17 +25,3 @@ def concat(char, next_char):
     if next_char is None:
         return char
     return ''.join([char, next_char])
-
-
-class SymbolMap(defaultdict):
-    def __missing__(self, key):
-        self[key] = key
-        return key
-
-
-symbol_map = SymbolMap()
-symbol_map.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
-symbol_map.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
-symbol_map.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
-symbol_map.update({'trailing_consonant': '/', 'non_trailing_consonant': '='})
-symbol_map.update({'word_doubling': '\\', 'consonant_stop': '-'})

@@ -1,8 +1,8 @@
-from collections import defaultdict
 from collections import deque
 from itertools import islice
 
 from app.char import chars
+from app.symbol import symbols
 
 
 vowel_repetitions = set([
@@ -18,23 +18,6 @@ def parse_syllable(syllable):
     cons_i = get_index(0, lambda char: char not in chars['non-consonant'])
     vowl_i = get_index(cons_i, lambda char: char in chars['vowel'])
     return syllable[:cons_i], syllable[cons_i:vowl_i], syllable[vowl_i:]
-
-
-class SymbolMap(defaultdict):
-    def __missing__(self, key):
-        self[key] = key
-        return key
-
-
-symbol_map = SymbolMap()
-symbol_map.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
-symbol_map.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
-symbol_map.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
-symbol_map.update({'trailing_consonant': '/', 'non_trailing_consonant': '='})
-symbol_map.update({'double_syllable': ':'})
-symbol_map.update({'syllable_consonant_stop': '-'})
-symbol_map.update({'double_syllable_consonant_stop': ';'})
-symbol_map.update({'word_doubling': '\\'})
 
 
 class Syllable:
@@ -54,10 +37,10 @@ class Syllable:
                 self.modifier == syllable.modifier)
 
     def set_modifier(self, modifier_key):
-        self.modifier = symbol_map[modifier_key]
+        self.modifier = symbols[modifier_key]
 
     def append_modifier(self, modifier_key):
-        self.modifier += symbol_map[modifier_key]
+        self.modifier += symbols[modifier_key]
 
     def is_consonant(self):
         return self.consonant and not self.vowel
@@ -69,7 +52,7 @@ class Syllable:
         return self.consonant and self.vowel
 
     def is_double_syllable(self):
-        return self.modifier == symbol_map['double_syllable']
+        return self.modifier == symbols['double_syllable']
 
     @property
     def consonant(self):
@@ -133,7 +116,7 @@ class SyllableSeq(deque):
         return self[1] != Syllable(' ')
 
     def insert_modifier(self, i, modifier_key):
-        self.insert(i, Syllable(symbol_map[modifier_key]))
+        self.insert(i, Syllable(symbols[modifier_key]))
 
     def concat_vowels(self, n):
         return ''.join([syllable.vowel for syllable in
