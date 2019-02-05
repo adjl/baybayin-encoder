@@ -1,5 +1,5 @@
 from app.app import transform
-from app.char import Syllable
+from app.syllable import Syllable
 
 
 def test_transform():
