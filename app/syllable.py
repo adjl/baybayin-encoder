@@ -1,3 +1,4 @@
+from collections import defaultdict
 from collections import deque
 from itertools import islice
 
@@ -9,11 +10,6 @@ vowel_repetitions = set([
     'ie', 'ei', 'uo', 'ou'])
 
 
-def get_vowels(syllables):
-    return ''.join(
-        [syllable.vowel for syllable in syllables if syllable.vowel])
-
-
 def parse_syllable(syllable):
     def get_index(i, func):
         while i < len(syllable) and func(syllable[i]):
@@ -22,6 +18,23 @@ def parse_syllable(syllable):
     cons_i = get_index(0, lambda char: char not in chars['non-consonant'])
     vowl_i = get_index(cons_i, lambda char: char in chars['vowel'])
     return syllable[:cons_i], syllable[cons_i:vowl_i], syllable[vowl_i:]
+
+
+class SymbolMap(defaultdict):
+    def __missing__(self, key):
+        self[key] = key
+        return key
+
+
+symbol_map = SymbolMap()
+symbol_map.update({'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C'})
+symbol_map.update({'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4'})
+symbol_map.update({'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8'})
+symbol_map.update({'trailing_consonant': '/', 'non_trailing_consonant': '='})
+symbol_map.update({'double_syllable': ':'})
+symbol_map.update({'syllable_consonant_stop': '-'})
+symbol_map.update({'double_syllable_consonant_stop': ';'})
+symbol_map.update({'word_doubling': '\\'})
 
 
 class Syllable:
@@ -40,6 +53,12 @@ class Syllable:
                 self.vowel == syllable.vowel and
                 self.modifier == syllable.modifier)
 
+    def set_modifier(self, modifier_key):
+        self.modifier = symbol_map[modifier_key]
+
+    def append_modifier(self, modifier_key):
+        self.modifier += symbol_map[modifier_key]
+
     def is_consonant(self):
         return self.consonant and not self.vowel
 
@@ -48,6 +67,9 @@ class Syllable:
 
     def is_syllable(self):
         return self.consonant and self.vowel
+
+    def is_double_syllable(self):
+        return self.modifier == symbol_map['double_syllable']
 
     @property
     def consonant(self):
@@ -92,7 +114,7 @@ class SyllableSeq(deque):
             return False
         return (self[0].is_syllable() and self[1].is_syllable() and
                 self[0].consonant == self[1].consonant and
-                get_vowels(self.get_next(2)) in vowel_repetitions)
+                self.concat_vowels(2) in vowel_repetitions)
 
     def is_consonant_stop(self):
         if len(self) < 2:
@@ -110,5 +132,14 @@ class SyllableSeq(deque):
             return False
         return self[1] != Syllable(' ')
 
-    def get_next(self, num):
-        return list(islice(self, 0, num))
+    def insert_modifier(self, i, modifier_key):
+        self.insert(i, Syllable(symbol_map[modifier_key]))
+
+    def concat_vowels(self, n):
+        return ''.join([syllable.vowel for syllable in
+                        islice(self, 0, n) if syllable.vowel])
+
+    def pop_nth(self, n):
+        self.rotate(-n)
+        self.popleft()
+        self.rotate(n)

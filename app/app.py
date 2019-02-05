@@ -2,7 +2,6 @@ from collections import deque
 
 from app.char import chars
 from app.char import get_char_type
-from app.char import symbol_map
 from app.syllable import Syllable
 from app.syllable import SyllableSeq
 from app.util import dequeify_input
@@ -35,32 +34,24 @@ def transform(syllables):
         if syllables.is_word_doubling():
             for _ in range(2):
                 syllables.popleft()
-            syllables.insert(2, Syllable(symbol_map['word_doubling']))
+            syllables.insert_modifier(2, 'word_doubling')
 
         if syllables.is_vowel_doubling() or syllables.is_syllable_doubling():
-            syllable_slice = syllables.get_next(2)
+            syllables[1].set_modifier(syllables.concat_vowels(2))
             syllables.popleft()
-            syllables[0].modifier = symbol_map[get_vowels(syllable_slice)]
 
         if syllables.is_consonant_stop():
-            syllable = syllables.popleft()
-            if syllable.modifier == ':':
-                syllable.modifier = ';'
+            if syllables[0].is_double_syllable():
+                syllables[0].set_modifier('double_syllable_consonant_stop')
             else:
-                syllable.modifier += symbol_map['consonant_stop']
-            syllables.popleft()
-            syllables.appendleft(syllable)
+                syllables[0].append_modifier('syllable_consonant_stop')
+            syllables.pop_nth(1)
 
         if syllables.is_trailing_consonant():
-            syllables[0].modifier += symbol_map['trailing_consonant']
+            syllables[0].append_modifier('trailing_consonant')
 
         if syllables.is_non_trailing_consonant():
-            syllables[0].modifier += symbol_map['non_trailing_consonant']
+            syllables[0].append_modifier('non_trailing_consonant')
 
         transformed.append(syllables.popleft())
     return transformed
-
-
-def get_vowels(syllables):
-    return ''.join(
-        [syllable.vowel for syllable in syllables if syllable.vowel])
