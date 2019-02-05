@@ -1,0 +1,74 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Syllable	../app/syllable.py	/^class Syllable:$/;"	kind:class	line:27
+SyllableSeq	../app/syllable.py	/^class SyllableSeq(deque):$/;"	kind:class	line:73
+SymbolMap	../app/char.py	/^class SymbolMap(defaultdict):$/;"	kind:class	line:32
+__dequeify_input	../app/util.py	/^        def __dequeify_input(inputs):$/;"	kind:function	line:9
+__eq__	../app/syllable.py	/^    def __eq__(self, syllable):$/;"	kind:member	line:38
+__init__	../app/syllable.py	/^    def __init__(self, syllable):$/;"	kind:member	line:29
+__init__	../app/syllable.py	/^    def __init__(self, syllables):$/;"	kind:member	line:75
+__init__.py	../app/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/__init__.py	1;"	kind:file	line:1
+__missing__	../app/char.py	/^    def __missing__(self, key):$/;"	kind:member	line:33
+__repr__	../app/syllable.py	/^    def __repr__(self):$/;"	kind:member	line:35
+_dequeify_input	../app/util.py	/^    def _dequeify_input(func):$/;"	kind:function	line:7
+app.py	../app.py	1;"	kind:file	line:1
+app.py	../app/app.py	1;"	kind:file	line:1
+char.py	../app/char.py	1;"	kind:file	line:1
+chars	../app/char.py	/^chars = {$/;"	kind:variable	line:6
+concat	../app/char.py	/^def concat(char, next_char):$/;"	kind:function	line:26
+consonant	../app/syllable.py	/^    def consonant(self):$/;"	kind:member	line:53
+dequeify_input	../app/util.py	/^def dequeify_input(_func=None, transform=lambda x: x):$/;"	kind:function	line:6
+get_char_type	../app/char.py	/^def get_char_type(char, next_char):$/;"	kind:function	line:17
+get_index	../app/syllable.py	/^    def get_index(i, func):$/;"	kind:function	line:18
+get_next	../app/syllable.py	/^    def get_next(self, num):$/;"	kind:member	line:113
+get_vowels	../app/app.py	/^def get_vowels(syllables):$/;"	kind:function	line:64
+get_vowels	../app/syllable.py	/^def get_vowels(syllables):$/;"	kind:function	line:12
+index	../app.py	/^def index():$/;"	kind:function	line:10
+index_post	../app.py	/^def index_post():$/;"	kind:function	line:15
+is_consonant	../app/syllable.py	/^    def is_consonant(self):$/;"	kind:member	line:43
+is_consonant_stop	../app/syllable.py	/^    def is_consonant_stop(self):$/;"	kind:member	line:97
+is_non_trailing_consonant	../app/syllable.py	/^    def is_non_trailing_consonant(self):$/;"	kind:member	line:108
+is_syllable	../app/syllable.py	/^    def is_syllable(self):$/;"	kind:member	line:49
+is_syllable_doubling	../app/syllable.py	/^    def is_syllable_doubling(self):$/;"	kind:member	line:90
+is_trailing_consonant	../app/syllable.py	/^    def is_trailing_consonant(self):$/;"	kind:member	line:103
+is_vowel	../app/syllable.py	/^    def is_vowel(self):$/;"	kind:member	line:46
+is_vowel_doubling	../app/syllable.py	/^    def is_vowel_doubling(self):$/;"	kind:member	line:84
+is_word_doubling	../app/syllable.py	/^    def is_word_doubling(self):$/;"	kind:member	line:78
+modifier	../app/syllable.py	/^    def modifier(self):$/;"	kind:member	line:61
+modifier	../app/syllable.py	/^    def modifier(self, modifier):$/;"	kind:member	line:69
+num_chars	../tests/util.py	/^num_chars = {$/;"	kind:variable	line:15
+num_examples	../tests/util.py	/^def num_examples(num):$/;"	kind:function	line:22
+parse_syllable	../app/syllable.py	/^def parse_syllable(syllable):$/;"	kind:function	line:17
+strategies	../tests/util.py	/^strategies = {$/;"	kind:variable	line:9
+syllable.py	../app/syllable.py	1;"	kind:file	line:1
+syllable_re	../tests/util.py	/^syllable_re = re.compile(r'(?:[bdf-hj-npr-tvwyz]|ñ|ng|ts)?[aeiou]?')$/;"	kind:variable	line:7
+symbol_map	../app/char.py	/^symbol_map = SymbolMap()$/;"	kind:variable	line:38
+test_tokenise.py	../tests/test_tokenise.py	1;"	kind:file	line:1
+test_tokenise_contiguous_whitespace	../tests/test_tokenise.py	/^def test_tokenise_contiguous_whitespace(whitespace):$/;"	kind:function	line:26
+test_tokenise_empty_seq	../tests/test_tokenise.py	/^def test_tokenise_empty_seq():$/;"	kind:function	line:14
+test_tokenise_multiple_punctuation	../tests/test_tokenise.py	/^def test_tokenise_multiple_punctuation(punctuation1, punctuation2):$/;"	kind:function	line:38
+test_tokenise_multiple_syllable_word	../tests/test_tokenise.py	/^def test_tokenise_multiple_syllable_word(syllable1, syllable2):$/;"	kind:function	line:66
+test_tokenise_phrase_with_punctuation	../tests/test_tokenise.py	/^def test_tokenise_phrase_with_punctuation($/;"	kind:function	line:100
+test_tokenise_punctuation	../tests/test_tokenise.py	/^def test_tokenise_punctuation(punctuation):$/;"	kind:function	line:32
+test_tokenise_punctuation_followed_by_whitespace	../tests/test_tokenise.py	/^def test_tokenise_punctuation_followed_by_whitespace(punctuation, whitespace):$/;"	kind:function	line:45
+test_tokenise_single_syllable	../tests/test_tokenise.py	/^def test_tokenise_single_syllable(syllable):$/;"	kind:function	line:59
+test_tokenise_uppercase	../tests/test_tokenise.py	/^def test_tokenise_uppercase(lowercase):$/;"	kind:function	line:52
+test_tokenise_whitespace	../tests/test_tokenise.py	/^def test_tokenise_whitespace(whitespace):$/;"	kind:function	line:20
+test_tokenise_words	../tests/test_tokenise.py	/^def test_tokenise_words(syllable1, whitespace, syllable2):$/;"	kind:function	line:77
+test_tokenise_words_with_punctuation	../tests/test_tokenise.py	/^def test_tokenise_words_with_punctuation(syllable1, punctuation, syllable2):$/;"	kind:function	line:88
+test_transcribe.py	../tests/test_transcribe.py	1;"	kind:file	line:1
+test_transform	../tests/test_transform.py	/^def test_transform():$/;"	kind:function	line:5
+test_transform.py	../tests/test_transform.py	1;"	kind:file	line:1
+tests_transliterate.py	../tests/tests_transliterate.py	1;"	kind:file	line:1
+tokenise	../app/app.py	/^def tokenise(seq):$/;"	kind:function	line:12
+transform	../app/app.py	/^def transform(syllables):$/;"	kind:function	line:31
+util.py	../app/util.py	1;"	kind:file	line:1
+util.py	../tests/util.py	1;"	kind:file	line:1
+vowel	../app/syllable.py	/^    def vowel(self):$/;"	kind:member	line:57
+vowel	../app/syllable.py	/^    def vowel(self, vowel):$/;"	kind:member	line:65
+vowel_repetitions	../app/syllable.py	/^vowel_repetitions = set([$/;"	kind:variable	line:7
