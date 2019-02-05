@@ -36,6 +36,10 @@ def transform(syllables):
                 syllables.popleft()
             syllables.insert_modifier(2, 'word_doubling')
 
+        if syllables.is_syllable_tripling():
+            syllables[1].append_modifier('double_syllable')
+            syllables.pop_nth(2)
+
         if syllables.is_vowel_doubling() or syllables.is_syllable_doubling():
             syllables[1].set_modifier(syllables.concat_vowels(2))
             syllables.popleft()

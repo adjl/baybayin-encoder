@@ -29,8 +29,8 @@ def test_transform():
     assert transform(['bu', 'b']) == [Syllable('bu-')]
     assert transform(['bo', 'b']) == [Syllable('bo-')]
 
-    assert(transform(['ba', 'ba', 'ba', 'ba']) ==
-           [Syllable('ba:'), Syllable('ba:')])
+    assert transform(['ba', 'ba', 'ba']) == [Syllable('ba'), Syllable('ba:')]
+
     assert(transform(['bi', 'be', 'bu', 'bo']) ==
            [Syllable('be5'), Syllable('bo7')])
     assert(transform(['bi', 'bu', 'be', 'bo']) ==
