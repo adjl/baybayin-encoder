@@ -44,17 +44,28 @@ def test_transform_vowel_pattern(consonant, vowel1, vowel2):
     assert transform([syllable1, syllable2]) == [Syllable(expected)]
 
 
-def test_transform():
-    assert transform(['ba', 'ba', 'b']) == [Syllable('ba;')]
-    assert transform(['bi', 'bi', 'b']) == [Syllable('bi1-')]
-    assert transform(['be', 'be', 'b']) == [Syllable('be2-')]
-    assert transform(['bu', 'bu', 'b']) == [Syllable('bu3-')]
-    assert transform(['bo', 'bo', 'b']) == [Syllable('bo4-')]
-    assert transform(['bi', 'be', 'b']) == [Syllable('bi5-')]
-    assert transform(['be', 'bi', 'b']) == [Syllable('be6-')]
-    assert transform(['bu', 'bo', 'b']) == [Syllable('bu7-')]
-    assert transform(['bo', 'bu', 'b']) == [Syllable('bo8-')]
+@given(strategies['consonant'], strategies['vowel'], strategies['vowel'])
+@settings(max_examples=num_chars['consonant'] * 8)
+def test_transform_double_syllable_consonant_stop(consonant, vowel1, vowel2):
+    assume(vowel1 != 'a' and vowel2 != 'a')
+    vowel_pattern = ''.join([vowel1, vowel2])
+    assume(vowel_pattern in vowel_repetitions)
+    syllable1 = ''.join([consonant, vowel1])
+    syllable2 = ''.join([consonant, vowel2])
+    expected = ''.join([syllable1, symbols[vowel_pattern],
+                        symbols['syllable_consonant_stop']])
+    assert transform([syllable1, syllable2, consonant]) == [Syllable(expected)]
 
+
+@given(strategies['consonant'])
+@settings(max_examples=num_chars['consonant'])
+def test_transform_double_syllable_a_consonant_stop(consonant):
+    syllable = ''.join([consonant, 'a'])
+    expected = ''.join([syllable, symbols['double_syllable_consonant_stop']])
+    assert transform([syllable, syllable, consonant]) == [Syllable(expected)]
+
+
+def test_transform():
     assert transform(['ba', 'ba', 'ba']) == [Syllable('ba'), Syllable('ba:')]
 
     assert(transform(['bi', 'be', 'bu', 'bo']) ==
