@@ -94,12 +94,6 @@ class SyllableSeq(deque):
             return False
         return self[0] == self[1] == self[2]
 
-    def is_vowel_doubling(self):
-        if len(self) < 2:
-            return False
-        return (self[0].is_vowel() and self[1].is_vowel() and
-                self[0] == self[1])
-
     def is_syllable_doubling(self):
         if len(self) < 2:
             return False
@@ -107,6 +101,12 @@ class SyllableSeq(deque):
                 self[0].consonant == self[1].consonant and
                 not self[0].has_modifier() and not self[1].has_modifier() and
                 self.concat_vowels(2) in vowel_repetitions)
+
+    def is_vowel_doubling(self):
+        if len(self) < 2:
+            return False
+        return (self[0].is_vowel() and self[1].is_vowel() and
+                self[0] == self[1])
 
     def is_consonant_stop(self):
         if len(self) < 2:

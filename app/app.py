@@ -40,7 +40,7 @@ def transform(syllables):
             syllables[1].append_modifier('double_syllable')
             syllables.pop_nth(2)
 
-        if syllables.is_vowel_doubling() or syllables.is_syllable_doubling():
+        if syllables.is_syllable_doubling() or syllables.is_vowel_doubling():
             syllables[0].set_modifier(syllables.concat_vowels(2))
             syllables.pop_nth(1)
 
