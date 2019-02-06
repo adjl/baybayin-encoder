@@ -16,6 +16,7 @@ num_chars = {
     'whitespace': 6,  # \s regex: len([ \t\n\r\f\v]) == 6
     'punctuation': 8,
     'vowel': 5,
+    'consonant': 21,
     'syllable': 131}  # 21 consonants * 5 vowels + 21 + 5
 
 
