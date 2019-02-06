@@ -23,6 +23,14 @@ def test_transform_non_trailing_consonant(consonant):
     assert transform([consonant] * 2)[0] == Syllable(expected)
 
 
+@given(strategies['consonant'], strategies['vowel'])
+@settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
+def test_transform_syllable_consonant_stop(consonant, vowel):
+    syllable = ''.join([consonant, vowel])
+    expected = ''.join([syllable, symbols['syllable_consonant_stop']])
+    assert transform([syllable, consonant]) == [Syllable(expected)]
+
+
 def test_transform():
     assert transform(['ba', 'ba', 'b']) == [Syllable('ba;')]
     assert transform(['bi', 'bi', 'b']) == [Syllable('bi1-')]
@@ -42,11 +50,6 @@ def test_transform():
     assert transform(['be', 'bi']) == [Syllable('be6')]
     assert transform(['bu', 'bo']) == [Syllable('bu7')]
     assert transform(['bo', 'bu']) == [Syllable('bo8')]
-    assert transform(['ba', 'b']) == [Syllable('ba-')]
-    assert transform(['bi', 'b']) == [Syllable('bi-')]
-    assert transform(['be', 'b']) == [Syllable('be-')]
-    assert transform(['bu', 'b']) == [Syllable('bu-')]
-    assert transform(['bo', 'b']) == [Syllable('bo-')]
 
     assert transform(['ba', 'ba', 'ba']) == [Syllable('ba'), Syllable('ba:')]
 
