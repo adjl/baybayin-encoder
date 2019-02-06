@@ -33,6 +33,13 @@ def test_transform_syllable_consonant_stop(consonant, vowel):
     assert transform([syllable, consonant]) == [Syllable(expected)]
 
 
+@given(strategies['vowel'])
+@settings(max_examples=num_chars['vowel'])
+def test_transform_double_vowel(vowel):
+    expected = ''.join([vowel, symbols['double_syllable']])
+    assert transform([vowel] * 2) == [Syllable(expected)]
+
+
 @given(strategies['consonant'], strategies['vowel'], strategies['vowel'])
 @settings(max_examples=num_chars['consonant'] * 9)
 def test_transform_vowel_pattern(consonant, vowel1, vowel2):
@@ -72,5 +79,3 @@ def test_transform():
            [Syllable('bi5'), Syllable('bu7')])
     assert(transform(['bi', 'bu', 'be', 'bo']) ==
            [Syllable('bi'), Syllable('bu'), Syllable('be'), Syllable('bo')])
-
-    assert transform(['a', 'a']) == [Syllable('a:')]
