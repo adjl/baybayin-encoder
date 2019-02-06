@@ -1,6 +1,7 @@
 from hypothesis import assume
 from hypothesis import given
 from hypothesis import settings
+from hypothesis.strategies import from_regex
 
 from app.app import transform
 from app.syllable import Syllable
@@ -72,5 +73,10 @@ def test_transform_double_syllable_consonant_stop_special_case(consonant):
     assert transform([syllable, syllable, consonant]) == [Syllable(expected)]
 
 
-def test_transform():
-    assert transform(['ba', 'ba', 'ba']) == [Syllable('ba'), Syllable('ba:')]
+@given(from_regex(r'(?:[bdf-hj-npr-tvwyz]|ñ|ng|ts)?[aeiou]', fullmatch=True))
+@settings(max_examples=(
+    num_chars['consonant'] * num_chars['vowel'] + num_chars['vowel']))
+def test_transform_triple_syllable(syllable):
+    doubled_syllable = ''.join([syllable, symbols['double_syllable']])
+    assert(transform([syllable] * 3) ==
+           [Syllable(syllable), Syllable(doubled_syllable)])
