@@ -3,8 +3,6 @@ from app.syllable import Syllable
 
 
 def test_transform():
-    assert(transform(['ba', 'ka', 'ba', 'ka']) ==
-           [Syllable('ba'), Syllable('ka'), Syllable('\\')])
     assert transform(['ba', 'ba', 'b']) == [Syllable('ba;')]
     assert transform(['bi', 'bi', 'b']) == [Syllable('bi1-')]
     assert transform(['be', 'be', 'b']) == [Syllable('be2-')]

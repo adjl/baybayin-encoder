@@ -83,12 +83,6 @@ class SyllableSeq(deque):
     def __init__(self, syllables):
         super().__init__(syllables)
 
-    def is_word_doubling(self):
-        if len(self) < 4:
-            return False
-        return ((self[0], self[1]) == (self[2], self[3]) and
-                self[0] != self[1])
-
     def is_syllable_tripling(self):
         if len(self) < 3:
             return False
@@ -123,9 +117,6 @@ class SyllableSeq(deque):
         if not self[0].is_consonant() or len(self) < 2:
             return False
         return self[1] != Syllable(' ')
-
-    def insert_modifier(self, i, modifier_key):
-        self.insert(i, Syllable(symbols[modifier_key]))
 
     def concat_vowels(self, n):
         return ''.join([syllable.vowel for syllable in

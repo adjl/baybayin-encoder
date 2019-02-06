@@ -31,11 +31,6 @@ def transform(syllables):
     transformed = deque()
     syllables = SyllableSeq(syllables)
     while syllables:
-        if syllables.is_word_doubling():
-            for _ in range(2):
-                syllables.popleft()
-            syllables.insert_modifier(2, 'word_doubling')
-
         if syllables.is_syllable_tripling():
             syllables[1].append_modifier('double_syllable')
             syllables.pop_nth(2)
