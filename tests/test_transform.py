@@ -66,7 +66,7 @@ def test_transform_double_syllable_consonant_stop(consonant, vowel1, vowel2):
 
 @given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
-def test_transform_double_syllable_a_consonant_stop(consonant):
+def test_transform_double_syllable_consonant_stop_special_case(consonant):
     syllable = ''.join([consonant, 'a'])
     expected = ''.join([syllable, symbols['double_syllable_consonant_stop']])
     assert transform([syllable, syllable, consonant]) == [Syllable(expected)]
@@ -74,8 +74,3 @@ def test_transform_double_syllable_a_consonant_stop(consonant):
 
 def test_transform():
     assert transform(['ba', 'ba', 'ba']) == [Syllable('ba'), Syllable('ba:')]
-
-    assert(transform(['bi', 'be', 'bu', 'bo']) ==
-           [Syllable('bi5'), Syllable('bu7')])
-    assert(transform(['bi', 'bu', 'be', 'bo']) ==
-           [Syllable('bi'), Syllable('bu'), Syllable('be'), Syllable('bo')])
