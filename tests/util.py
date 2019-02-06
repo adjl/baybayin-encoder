@@ -10,6 +10,7 @@ strategies = {
     'whitespace': from_regex(r'(?a)\s', fullmatch=True),
     'punctuation': from_regex(r'[,.?!<>()]', fullmatch=True),
     'vowel': from_regex(r'[aeiou]', fullmatch=True),
+    'consonant': from_regex(r'[bdf-hj-npr-tvwyz]|ñ|ng|ts', fullmatch=True),
     'syllable': from_regex(syllable_re, fullmatch=True)}
 
 num_chars = {

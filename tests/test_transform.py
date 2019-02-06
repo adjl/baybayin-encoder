@@ -1,19 +1,26 @@
 from hypothesis import given
 from hypothesis import settings
-from hypothesis.strategies import from_regex
 
 from app.app import transform
 from app.syllable import Syllable
 from app.symbol import symbols
 from tests.util import num_chars
+from tests.util import strategies
 
 
-@given(from_regex(r'[bdf-hj-npr-tvwyz]|ñ|ng|ts', fullmatch=True))
+@given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
 def test_transform_trailing_consonant(consonant):
     expected = ''.join([consonant, symbols['trailing_consonant']])
     assert transform([consonant]) == [Syllable(expected)]
     assert transform([consonant, ' ']) == [Syllable(expected), Syllable(' ')]
+
+
+@given(strategies['consonant'])
+@settings(max_examples=num_chars['consonant'])
+def test_transform_non_trailing_consonant(consonant):
+    expected = ''.join([consonant, symbols['non_trailing_consonant']])
+    assert transform([consonant] * 2)[0] == Syllable(expected)
 
 
 def test_transform():
@@ -49,5 +56,3 @@ def test_transform():
            [Syllable('bi'), Syllable('bu'), Syllable('be'), Syllable('bo')])
 
     assert transform(['a', 'a']) == [Syllable('a:')]
-
-    assert transform(['b', 'ba']) == [Syllable('b='), Syllable('ba')]
