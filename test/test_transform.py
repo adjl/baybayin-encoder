@@ -9,7 +9,7 @@ from hypothesis.strategies import from_regex
 from app.app import transform
 from app.syllable import Syllable
 from app.syllable import vowel_patterns
-from app.symbol import symbols
+from app.symbols import symbols
 
 
 @given(strategies['consonant'])

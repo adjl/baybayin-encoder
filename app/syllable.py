@@ -1,8 +1,8 @@
 from collections import deque
 from itertools import islice
 
-from app.char import chars
-from app.symbol import symbols
+from app.chars import chars
+from app.symbols import symbols
 
 
 vowel_patterns = set([
