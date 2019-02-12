@@ -8,20 +8,20 @@ from app.utils import transform_args
 
 
 @transform_args(transform=str.lower)
-def tokenise(seq):
+def tokenise(string):
     syllables = deque()
-    while seq:
-        syllable = deque(seq.popleft())
-        char_type = get_char_type(syllable[0], seq[0] if seq else None)
+    while string:
+        syllable = deque(string.popleft())
+        char_type = get_char_type(syllable[0], string[0] if string else None)
         if char_type == 'whitespace':
-            while seq and syllable[0] == seq[0]:
-                seq.popleft()
+            while string and syllable[0] == string[0]:
+                string.popleft()
         if char_type == 'diphthong':
-            syllable.append(seq.popleft())
+            syllable.append(string.popleft())
             char_type = 'consonant'
         if char_type == 'consonant':
-            if seq and seq[0] in chars['vowel']:
-                syllable.append(seq.popleft())
+            if string and string[0] in chars['vowel']:
+                syllable.append(string.popleft())
         syllables.append(''.join(syllable))
     return syllables
 
