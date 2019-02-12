@@ -9,7 +9,8 @@ chars = {
     'diphthong': ['ng', 'ts']}
 
 chars['non-consonant'] = ''.join(
-    [chars[char_type] for char_type in ['whitespace', 'punctuation', 'digits', 'vowel']])
+    [chars[char_type] for char_type in
+     ['whitespace', 'punctuation', 'digits', 'vowel']])
 
 
 def get_char_type(char, next_char):
