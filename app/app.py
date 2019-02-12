@@ -30,6 +30,9 @@ def tokenise(string):
 def transform(syllables):
     transformed = deque()
     while syllables:
+        if syllables[0].is_hyphen():
+            syllables.popleft()
+
         if syllables.is_triple_syllable():
             syllables[1].append_modifier('double_syllable')
             syllables.pop_nth(2)

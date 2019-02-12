@@ -56,6 +56,9 @@ class Syllable:
     def has_modifier(self):
         return self.modifier
 
+    def is_hyphen(self):
+        return not self.consonant and not self.vowel and self.modifier == '-'
+
     def is_double_syllable(self):
         return self.modifier == symbols['double_syllable']
 

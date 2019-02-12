@@ -11,6 +11,13 @@ from app.syllable import vowel_patterns
 from app.symbols import symbols
 
 
+@given(strategies['consonant'], strategies['vowel'])
+@settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
+def test_transform_hyphenated_word(consonant, vowel):
+    expected = ''.join([consonant, symbols['non_trailing_consonant']])
+    assert transform([consonant, '-', vowel]) == [expected, vowel]
+
+
 @given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
 def test_transform_trailing_consonant(consonant):
