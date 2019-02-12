@@ -36,9 +36,9 @@ def test_transform_hyphenated_word(consonant, vowel):
 
 @given(strategies['consonant'], strategies['vowel'])
 @settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
-def test_transform_syllable_consonant_stop(consonant, vowel):
+def test_transform_consonant_stop(consonant, vowel):
     syllable = ''.join([consonant, vowel])
-    expected = ''.join([syllable, symbols['syllable_consonant_stop']])
+    expected = ''.join([syllable, symbols['consonant_stop']])
     assert transform([syllable, consonant]) == [expected]
 
 
@@ -69,15 +69,15 @@ def test_transform_double_syllable_consonant_stop(consonant, vowel1, vowel2):
     syllable1 = ''.join([consonant, vowel1])
     syllable2 = ''.join([consonant, vowel2])
     expected = ''.join([syllable1, symbols[vowel_pattern],
-                        symbols['syllable_consonant_stop']])
+                        symbols['consonant_stop']])
     assert transform([syllable1, syllable2, consonant]) == [expected]
 
 
 @given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
-def test_transform_double_syllable_consonant_stop_special_case(consonant):
+def test_transform_double_consonant_stop(consonant):
     syllable = ''.join([consonant, 'a'])
-    expected = ''.join([syllable, symbols['double_syllable_consonant_stop']])
+    expected = ''.join([syllable, symbols['double_consonant_stop']])
     assert transform([syllable, syllable, consonant]) == [expected]
 
 

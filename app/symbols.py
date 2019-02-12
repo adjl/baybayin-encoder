@@ -18,5 +18,5 @@ symbols = SymbolMap({
     'trailing_consonant': '/',
     'non_trailing_consonant': '=',
     'double_syllable': ':',
-    'syllable_consonant_stop': '-',
-    'double_syllable_consonant_stop': ';'})
+    'consonant_stop': '-',
+    'double_consonant_stop': ';'})

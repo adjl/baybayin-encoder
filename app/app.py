@@ -46,9 +46,9 @@ def transform(syllables):
 
         if syllables.is_consonant_stop():
             if syllables[0].is_double_syllable():
-                syllables[0].set_modifier('double_syllable_consonant_stop')
+                syllables[0].set_modifier('double_consonant_stop')
             else:
-                syllables[0].append_modifier('syllable_consonant_stop')
+                syllables[0].append_modifier('consonant_stop')
             syllables.pop_nth(1)
 
         if syllables.is_trailing_consonant():
