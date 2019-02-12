@@ -49,14 +49,14 @@ def test_tokenise_punctuation_followed_by_whitespace(punctuation, whitespace):
 
 
 @given(strategies['syllable'])
-@settings(max_examples=num_examples(num_chars['syllable']))
+@settings(max_examples=num_chars['syllable'])
 def test_tokenise_uppercase(lowercase):
     assume(lowercase)
     assert tokenise(lowercase.upper()) == tokenise(lowercase)
 
 
 @given(strategies['syllable'])
-@settings(max_examples=num_examples(num_chars['syllable']))
+@settings(max_examples=num_chars['syllable'])
 def test_tokenise_single_syllable(syllable):
     assume(syllable)
     assert tokenise(syllable) == [syllable]

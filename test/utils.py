@@ -23,4 +23,4 @@ num_chars = {
 
 def num_examples(num):
     # return num  # Uncomment to generate all test data. Warning: slow! (~50s)
-    return min(settings.default.max_examples, num)
+    return min(settings.default.max_examples * 2, num)
