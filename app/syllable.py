@@ -32,9 +32,11 @@ class Syllable:
         return '({},{},{})'.format(self.consonant, self.vowel, self.modifier)
 
     def __eq__(self, syllable):
-        return (self.consonant == syllable.consonant and
-                self.vowel == syllable.vowel and
-                self.modifier == syllable.modifier)
+        if isinstance(syllable, Syllable):
+            return (self.consonant == syllable.consonant and
+                    self.vowel == syllable.vowel and
+                    self.modifier == syllable.modifier)
+        return self.get() == syllable
 
     def set_modifier(self, modifier_key):
         self.modifier = symbols[modifier_key]
@@ -56,6 +58,9 @@ class Syllable:
 
     def is_double_syllable(self):
         return self.modifier == symbols['double_syllable']
+
+    def get(self):
+        return ''.join([self.consonant, self.vowel, self.modifier])
 
     @property
     def consonant(self):
@@ -82,6 +87,9 @@ class SyllableSeq(deque):
 
     def __init__(self, syllables):
         super().__init__(syllables)
+
+    def __eq__(self, syllables):
+        return [syllable.get() for syllable in self] == syllables
 
     def is_triple_syllable(self):
         if len(self) < 3:
