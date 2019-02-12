@@ -1,14 +1,15 @@
 import re
 
+from test.utils import num_chars
+from test.utils import num_examples
+from test.utils import strategies
+from test.utils import syllable_re
+
 from hypothesis import assume
 from hypothesis import given
 from hypothesis import settings
 
 from app.app import tokenise
-from tests.util import num_chars
-from tests.util import num_examples
-from tests.util import strategies
-from tests.util import syllable_re
 
 
 def test_tokenise_empty_seq():

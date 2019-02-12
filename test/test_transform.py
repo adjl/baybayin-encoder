@@ -1,3 +1,6 @@
+from test.utils import num_chars
+from test.utils import strategies
+
 from hypothesis import assume
 from hypothesis import given
 from hypothesis import settings

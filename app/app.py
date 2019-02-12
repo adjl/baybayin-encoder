@@ -4,7 +4,7 @@ from app.char import chars
 from app.char import get_char_type
 from app.syllable import Syllable
 from app.syllable import SyllableSeq
-from app.util import dequeify_input
+from app.utils import dequeify_input
 
 
 @dequeify_input(transform=str.lower)
