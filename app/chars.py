@@ -4,13 +4,13 @@ import string
 chars = {
     'whitespace': string.whitespace,
     'punctuation': string.punctuation,
-    'digits': string.digits,
+    'digit': string.digits,
     'vowel': 'aeiou',
     'diphthong': ['ng', 'ts']}
 
 chars['non-consonant'] = ''.join(
     [chars[char_type] for char_type in
-     ['whitespace', 'punctuation', 'digits', 'vowel']])
+     ['whitespace', 'punctuation', 'digit', 'vowel']])
 
 
 def get_char_type(char, next_char):
