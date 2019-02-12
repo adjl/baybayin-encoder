@@ -3,14 +3,12 @@ import functools
 from collections import deque
 
 
-def dequeify_input(_func=None, transform=lambda x: x):
-    def _dequeify_input(func):
+def transform_args(transform=lambda x: x, seq=deque):
+    def _transform_args(func):
         @functools.wraps(func)
-        def __dequeify_input(inputs):
+        def __transform_args(inputs):
             if not inputs:
                 return []
-            return list(func(deque(map(transform, inputs))))
-        return __dequeify_input
-    if _func is None:
-        return _dequeify_input
-    return _dequeify_input(_func)
+            return list(func(seq(map(transform, inputs))))
+        return __transform_args
+    return _transform_args

@@ -4,10 +4,10 @@ from app.char import chars
 from app.char import get_char_type
 from app.syllable import Syllable
 from app.syllable import SyllableSeq
-from app.utils import dequeify_input
+from app.utils import transform_args
 
 
-@dequeify_input(transform=str.lower)
+@transform_args(transform=str.lower)
 def tokenise(seq):
     syllables = deque()
     while seq:
@@ -26,10 +26,9 @@ def tokenise(seq):
     return syllables
 
 
-@dequeify_input(transform=Syllable)
+@transform_args(transform=Syllable, seq=SyllableSeq)
 def transform(syllables):
     transformed = deque()
-    syllables = SyllableSeq(syllables)
     while syllables:
         if syllables.is_triple_syllable():
             syllables[1].append_modifier('double_syllable')
