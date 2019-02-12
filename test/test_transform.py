@@ -8,10 +8,8 @@ from hypothesis.strategies import from_regex
 
 from app.app import transform
 from app.syllable import Syllable
-from app.syllable import vowel_repetitions
+from app.syllable import vowel_patterns
 from app.symbol import symbols
-from tests.util import num_chars
-from tests.util import strategies
 
 
 @given(strategies['consonant'])
@@ -48,7 +46,7 @@ def test_transform_double_vowel(vowel):
 @settings(max_examples=num_chars['consonant'] * 9)
 def test_transform_vowel_pattern(consonant, vowel1, vowel2):
     vowel_pattern = ''.join([vowel1, vowel2])
-    assume(vowel_pattern in vowel_repetitions)
+    assume(vowel_pattern in vowel_patterns)
     syllable1 = ''.join([consonant, vowel1])
     syllable2 = ''.join([consonant, vowel2])
     expected = ''.join([syllable1, symbols[vowel_pattern]])
@@ -60,7 +58,7 @@ def test_transform_vowel_pattern(consonant, vowel1, vowel2):
 def test_transform_double_syllable_consonant_stop(consonant, vowel1, vowel2):
     assume(vowel1 != 'a' and vowel2 != 'a')
     vowel_pattern = ''.join([vowel1, vowel2])
-    assume(vowel_pattern in vowel_repetitions)
+    assume(vowel_pattern in vowel_patterns)
     syllable1 = ''.join([consonant, vowel1])
     syllable2 = ''.join([consonant, vowel2])
     expected = ''.join([syllable1, symbols[vowel_pattern],

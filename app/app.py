@@ -31,11 +31,11 @@ def transform(syllables):
     transformed = deque()
     syllables = SyllableSeq(syllables)
     while syllables:
-        if syllables.is_syllable_tripling():
+        if syllables.is_triple_syllable():
             syllables[1].append_modifier('double_syllable')
             syllables.pop_nth(2)
 
-        if syllables.is_syllable_doubling() or syllables.is_vowel_doubling():
+        if syllables.is_double_syllable() or syllables.is_double_vowel():
             if syllables[0].is_vowel() and syllables[0].modifier != 'a':
                 syllables[0].append_modifier('double_syllable')
             else:
