@@ -77,9 +77,8 @@ def test_tokenise_multiple_syllable_word(syllable1, syllable2):
     num_chars['syllable'] ** 2 * num_chars['whitespace']))
 def test_tokenise_words(syllable1, whitespace, syllable2):
     assume(syllable1 or syllable2)
-    words = ''.join([syllable1, whitespace, syllable2])
-    assert(tokenise(words) ==
-           [word for word in [syllable1, whitespace, syllable2] if word])
+    words = [syllable1, whitespace, syllable2]
+    assert tokenise(''.join(words)) == [word for word in words if word]
 
 
 @given(strategies['syllable'], strategies['punctuation'],
@@ -88,9 +87,8 @@ def test_tokenise_words(syllable1, whitespace, syllable2):
     num_chars['syllable'] ** 2 * num_chars['punctuation']))
 def test_tokenise_words_with_punctuation(syllable1, punctuation, syllable2):
     assume(syllable1 or syllable2)
-    words = ''.join([syllable1, punctuation, syllable2])
-    assert(tokenise(words) ==
-           [word for word in [syllable1, punctuation, syllable2] if word])
+    words = [syllable1, punctuation, syllable2]
+    assert tokenise(''.join(words)) == [word for word in words if word]
 
 
 @given(strategies['syllable'], strategies['punctuation'],
@@ -101,7 +99,5 @@ def test_tokenise_words_with_punctuation(syllable1, punctuation, syllable2):
 def test_tokenise_phrase_with_punctuation(
         syllable1, punctuation, whitespace, syllable2):
     assume(syllable1 or syllable2)
-    phrase = ''.join([syllable1, punctuation, whitespace, syllable2])
-    assert(tokenise(phrase) ==
-           [word for word in
-            [syllable1, punctuation, whitespace, syllable2] if word])
+    phrase = [syllable1, punctuation, whitespace, syllable2]
+    assert tokenise(''.join(phrase)) == [word for word in phrase if word]

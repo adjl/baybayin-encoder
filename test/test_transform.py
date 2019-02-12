@@ -11,13 +11,6 @@ from app.syllable import vowel_patterns
 from app.symbols import symbols
 
 
-@given(strategies['consonant'], strategies['vowel'])
-@settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
-def test_transform_hyphenated_word(consonant, vowel):
-    expected = ''.join([consonant, symbols['non_trailing_consonant']])
-    assert transform([consonant, '-', vowel]) == [expected, vowel]
-
-
 @given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
 def test_transform_trailing_consonant(consonant):
@@ -29,8 +22,16 @@ def test_transform_trailing_consonant(consonant):
 @given(strategies['consonant'])
 @settings(max_examples=num_chars['consonant'])
 def test_transform_non_trailing_consonant(consonant):
+    expected1 = ''.join([consonant, symbols['non_trailing_consonant']])
+    expected2 = ''.join([consonant, symbols['trailing_consonant']])
+    assert transform([consonant] * 2) == [expected1, expected2]
+
+
+@given(strategies['consonant'], strategies['vowel'])
+@settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
+def test_transform_hyphenated_word(consonant, vowel):
     expected = ''.join([consonant, symbols['non_trailing_consonant']])
-    assert transform([consonant] * 2)[0] == expected
+    assert transform([consonant, '-', vowel]) == [expected, vowel]
 
 
 @given(strategies['consonant'], strategies['vowel'])
