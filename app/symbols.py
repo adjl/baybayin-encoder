@@ -15,6 +15,7 @@ symbols = SymbolMap({
     'j': 'D', 'ñ': '~', 'ng': 'N', 'ts': 'C',
     'aa': ':', 'ii': '1', 'ee': '2', 'uu': '3', 'oo': '4',
     'ie': '5', 'ei': '6', 'uo': '7', 'ou': '8',
+    'hyphen': '-',
     'trailing_consonant': '/',
     'non_trailing_consonant': '=',
     'double_syllable': ':',

@@ -27,16 +27,27 @@ class Syllable:
         self._consonant = consonant
         self._vowel = vowel
         self._modifier = modifier
+        self._fields = None
 
     def __repr__(self):
-        return '({},{},{})'.format(self.consonant, self.vowel, self.modifier)
+        if self.fields is None:
+            self._set_fields()
+        return '({},{},{})'.format(*self.fields)
+
+    def __str__(self):
+        if self.fields is None:
+            self._set_fields()
+        return ''.join(self.fields)
 
     def __eq__(self, syllable):
         if isinstance(syllable, Syllable):
             return (self.consonant == syllable.consonant and
                     self.vowel == syllable.vowel and
                     self.modifier == syllable.modifier)
-        return self.get() == syllable
+        return str(self) == syllable
+
+    def _set_fields(self):
+        self.fields = [self.consonant, self.vowel, self.modifier]
 
     def set_modifier(self, modifier_key):
         self.modifier = symbols[modifier_key]
@@ -44,26 +55,26 @@ class Syllable:
     def append_modifier(self, modifier_key):
         self.modifier += symbols[modifier_key]
 
+    def is_syllable(self):
+        return self.consonant and self.vowel
+
     def is_consonant(self):
         return self.consonant and not self.vowel
 
     def is_vowel(self):
         return not self.consonant and self.vowel
 
-    def is_syllable(self):
-        return self.consonant and self.vowel
+    def is_modifier(self):
+        return not self.consonant and not self.vowel
 
     def has_modifier(self):
         return self.modifier
 
-    def is_hyphen(self):
-        return not self.consonant and not self.vowel and self.modifier == '-'
-
     def is_double_syllable(self):
         return self.modifier == symbols['double_syllable']
 
-    def get(self):
-        return ''.join([self.consonant, self.vowel, self.modifier])
+    def is_hyphen(self):
+        return self.is_modifier() and self.modifier == symbols['hyphen']
 
     @property
     def consonant(self):
@@ -77,6 +88,10 @@ class Syllable:
     def modifier(self):
         return self._modifier
 
+    @property
+    def fields(self):
+        return self._fields
+
     @vowel.setter
     def vowel(self, vowel):
         self._vowel = vowel
@@ -85,6 +100,10 @@ class Syllable:
     def modifier(self, modifier):
         self._modifier = modifier
 
+    @fields.setter
+    def fields(self, fields):
+        self._fields = fields
+
 
 class SyllableSeq(deque):
 
@@ -92,7 +111,7 @@ class SyllableSeq(deque):
         super().__init__(syllables)
 
     def __eq__(self, syllables):
-        return [syllable.get() for syllable in self] == syllables
+        return [str(syllable) for syllable in self] == syllables
 
     def is_triple_syllable(self):
         if len(self) < 3:
