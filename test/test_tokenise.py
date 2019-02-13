@@ -43,7 +43,7 @@ def test_tokenise_multiple_punctuation(punctuation1, punctuation2):
 
 @given(strategies['punctuation'], strategies['whitespace'])
 @settings(max_examples=num_chars['punctuation'] * num_chars['whitespace'])
-def test_tokenise_punctuation_followed_by_whitespace(punctuation, whitespace):
+def test_tokenise_punctuation_then_whitespace(punctuation, whitespace):
     formatting = ''.join([punctuation, whitespace])
     assert tokenise(formatting) == [punctuation, whitespace]
 
