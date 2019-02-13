@@ -3,7 +3,7 @@ from collections import deque
 from app.chars import chars
 from app.chars import get_char_type
 from app.syllable import Syllable
-from app.syllable import SyllableSeq
+from app.syllableseq import SyllableSeq
 from app.utils import transform_args
 
 
