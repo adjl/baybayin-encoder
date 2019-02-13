@@ -109,18 +109,23 @@ class SyllableSeq(deque):
         return ''.join([syllable.vowel for syllable in
                         islice(self, 0, 2) if syllable.vowel])
 
+    def are_all(self, func, n):
+        return all(func(syllable) for syllable in islice(self, 0, n))
+
     def is_triple_syllable(self):
         if len(self) < 3:
             return False
-        return self[0] == self[1] == self[2]
+        return (self.are_all(Syllable.is_syllable, 3) and
+                self.are_all(lambda s: not s.has_modifier(), 3) and
+                self[0] == self[1] == self[2])
 
     def is_double_syllable(self):
         if len(self) < 2:
             return False
-        return (self[0].is_syllable() and self[1].is_syllable() and
-                not self[0].has_modifier() and not self[1].has_modifier() and
-                self[0].consonant == self[1].consonant and
-                self.concat_vowels() in vowel_patterns)
+        return (self.are_all(Syllable.is_syllable, 2) and
+                self.are_all(lambda s: not s.has_modifier(), 2) and
+                self.concat_vowels() in vowel_patterns and
+                self[0].consonant == self[1].consonant)
 
     def is_consonant_stop(self):
         if len(self) < 2:
