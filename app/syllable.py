@@ -113,6 +113,10 @@ class SyllableSeq(deque):
     def __eq__(self, syllables):
         return [str(syllable) for syllable in self] == syllables
 
+    def concat_vowels(self):
+        return ''.join([syllable.vowel for syllable in
+                        islice(self, 0, 2) if syllable.vowel])
+
     def is_triple_syllable(self):
         if len(self) < 3:
             return False
@@ -122,9 +126,9 @@ class SyllableSeq(deque):
         if len(self) < 2:
             return False
         return (self[0].is_syllable() and self[1].is_syllable() and
-                self[0].consonant == self[1].consonant and
                 not self[0].has_modifier() and not self[1].has_modifier() and
-                self.concat_vowels(2) in vowel_patterns)
+                self[0].consonant == self[1].consonant and
+                self.concat_vowels() in vowel_patterns)
 
     def is_double_vowel(self):
         if len(self) < 2:
@@ -147,10 +151,6 @@ class SyllableSeq(deque):
         if not self[0].is_consonant() or len(self) < 2:
             return False
         return self[1] != Syllable(' ')
-
-    def concat_vowels(self, n):
-        return ''.join([syllable.vowel for syllable in
-                        islice(self, 0, n) if syllable.vowel])
 
     def pop_nth(self, n):
         self.rotate(-n)

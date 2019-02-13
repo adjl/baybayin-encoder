@@ -41,7 +41,7 @@ def transform(syllables):
             if syllables[0].is_vowel() and syllables[0].modifier != 'a':
                 syllables[0].append_modifier('double_syllable')
             else:
-                syllables[0].set_modifier(syllables.concat_vowels(2))
+                syllables[0].set_modifier(syllables.concat_vowels())
             syllables.pop_nth(1)
 
         if syllables.is_consonant_stop():
