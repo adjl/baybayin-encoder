@@ -30,14 +30,14 @@ class Syllable:
         self._fields = None
 
     def __repr__(self):
-        if self.fields is None:
+        if self._fields is None:
             self._set_fields()
-        return '({},{},{})'.format(*self.fields)
+        return '({},{},{})'.format(*self._fields)
 
     def __str__(self):
-        if self.fields is None:
+        if self._fields is None:
             self._set_fields()
-        return ''.join(self.fields)
+        return ''.join(self._fields)
 
     def __eq__(self, syllable):
         if isinstance(syllable, Syllable):
@@ -47,7 +47,7 @@ class Syllable:
         return str(self) == syllable
 
     def _set_fields(self):
-        self.fields = [self.consonant, self.vowel, self.modifier]
+        self._fields = [self.consonant, self.vowel, self.modifier]
 
     def set_modifier(self, modifier_key):
         self.modifier = symbols[modifier_key]
@@ -88,10 +88,6 @@ class Syllable:
     def modifier(self):
         return self._modifier
 
-    @property
-    def fields(self):
-        return self._fields
-
     @vowel.setter
     def vowel(self, vowel):
         self._vowel = vowel
@@ -99,10 +95,6 @@ class Syllable:
     @modifier.setter
     def modifier(self, modifier):
         self._modifier = modifier
-
-    @fields.setter
-    def fields(self, fields):
-        self._fields = fields
 
 
 class SyllableSeq(deque):
