@@ -9,6 +9,6 @@ def transform_args(transform=lambda x: x, seq=deque):
         def __transform_args(inputs):
             if not inputs:
                 return []
-            return list(func(seq(map(transform, inputs))))
+            return list(func(seq(transform(x) for x in inputs)))
         return __transform_args
     return _transform_args
