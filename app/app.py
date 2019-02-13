@@ -37,7 +37,7 @@ def transform(syllables):
             syllables[1].append_modifier('double_syllable')
             syllables.pop_nth(2)
 
-        if syllables.is_double_syllable() or syllables.is_double_vowel():
+        if syllables.is_double_syllable():
             if syllables[0].is_vowel() and syllables[0].modifier != 'a':
                 syllables[0].append_modifier('double_syllable')
             else:

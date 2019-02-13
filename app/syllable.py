@@ -56,7 +56,7 @@ class Syllable:
         self.modifier += symbols[modifier_key]
 
     def is_syllable(self):
-        return self.consonant and self.vowel
+        return self.is_vowel() or self.consonant and self.vowel
 
     def is_consonant(self):
         return self.consonant and not self.vowel
@@ -121,12 +121,6 @@ class SyllableSeq(deque):
                 not self[0].has_modifier() and not self[1].has_modifier() and
                 self[0].consonant == self[1].consonant and
                 self.concat_vowels() in vowel_patterns)
-
-    def is_double_vowel(self):
-        if len(self) < 2:
-            return False
-        return (self[0].is_vowel() and self[1].is_vowel() and
-                self[0] == self[1])
 
     def is_consonant_stop(self):
         if len(self) < 2:
