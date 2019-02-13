@@ -16,7 +16,20 @@ from app.symbols import symbols
 def test_transform_trailing_consonant(consonant):
     expected = ''.join([consonant, symbols['trailing_consonant']])
     assert transform([consonant]) == [expected]
-    assert transform([consonant, ' ']) == [expected, ' ']
+
+
+@given(strategies['consonant'], strategies['whitespace'])
+@settings(max_examples=num_chars['consonant'] * num_chars['whitespace'])
+def test_transform_trailing_consonant_then_whitespace(consonant, whitespace):
+    expected = ''.join([consonant, symbols['trailing_consonant']])
+    assert transform([consonant, whitespace]) == [expected, whitespace]
+
+
+@given(strategies['consonant'], strategies['punctuation'])
+@settings(max_examples=num_chars['consonant'] * num_chars['punctuation'])
+def test_transform_trailing_consonant_then_punctuation(consonant, punctuation):
+    expected = ''.join([consonant, symbols['trailing_consonant']])
+    assert transform([consonant, punctuation]) == [expected, punctuation]
 
 
 @given(strategies['consonant'])
@@ -29,9 +42,10 @@ def test_transform_non_trailing_consonant(consonant):
 
 @given(strategies['consonant'], strategies['vowel'])
 @settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
-def test_transform_hyphenated_word(consonant, vowel):
+def test_transform_non_trailing_consonant_then_hyphen(consonant, vowel):
     expected = ''.join([consonant, symbols['non_trailing_consonant']])
-    assert transform([consonant, '-', vowel]) == [expected, vowel]
+    assert(transform([consonant, symbols['hyphen'], vowel]) ==
+           [expected, vowel])
 
 
 @given(strategies['consonant'], strategies['vowel'])

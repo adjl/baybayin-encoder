@@ -3,6 +3,7 @@ from itertools import islice
 
 from app.syllable import Syllable
 from app.syllable import vowel_patterns
+from app.symbols import symbols
 
 
 class SyllableSeq(deque):
@@ -44,12 +45,12 @@ class SyllableSeq(deque):
     def is_trailing_consonant(self):
         if not self[0].is_consonant():
             return False
-        return len(self) < 2 or self[1] == Syllable(' ')
+        return len(self) == 1 or self[1].is_modifier()
 
     def is_non_trailing_consonant(self):
-        if not self[0].is_consonant() or len(self) < 2:
+        if not self[0].is_consonant() or len(self) == 1:
             return False
-        return self[1] != Syllable(' ')
+        return self[1].is_consonant() or self[1] == symbols['hyphen']
 
     def pop_nth(self, n):
         self.rotate(-n)

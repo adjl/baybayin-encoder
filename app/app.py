@@ -34,12 +34,12 @@ def transform(syllables):
             syllables.popleft()
 
         if syllables.is_triple_syllable():
-            syllables[1].append_modifier('double_syllable')
+            syllables[1].set_modifier('double_syllable')
             syllables.pop_nth(2)
 
         if syllables.is_double_syllable():
             if syllables[0].is_vowel() and syllables[0].modifier in 'eiou':
-                syllables[0].append_modifier('double_syllable')
+                syllables[0].set_modifier('double_syllable')
             else:
                 syllables[0].set_modifier(syllables.concat_vowels())
             syllables.pop_nth(1)
@@ -52,10 +52,10 @@ def transform(syllables):
             syllables.pop_nth(1)
 
         if syllables.is_trailing_consonant():
-            syllables[0].append_modifier('trailing_consonant')
+            syllables[0].set_modifier('trailing_consonant')
 
         if syllables.is_non_trailing_consonant():
-            syllables[0].append_modifier('non_trailing_consonant')
+            syllables[0].set_modifier('non_trailing_consonant')
 
         transformed.append(syllables.popleft())
     return transformed
