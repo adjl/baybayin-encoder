@@ -26,7 +26,7 @@ def tokenise(string):
     return syllables
 
 
-@transform_args(transform=Syllable, seq=SyllableSeq)
+@transform_args(transform=Syllable, seq_in=SyllableSeq)
 def transform(syllables):
     transformed = deque()
     while syllables:
