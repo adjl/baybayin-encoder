@@ -2,7 +2,6 @@ from collections import deque
 from itertools import islice
 
 from app.syllable import Syllable
-from app.syllable import vowel_patterns
 from app.symbols import symbols
 
 
@@ -33,7 +32,7 @@ class SyllableSeq(deque):
             return False
         return (self.are_all(Syllable.is_syllable, 2) and
                 self.are_all(lambda s: not s.has_modifier(), 2) and
-                self.concat_vowels() in vowel_patterns and
+                self.concat_vowels() in symbols and
                 self[0].consonant == self[1].consonant)
 
     def is_consonant_stop(self):

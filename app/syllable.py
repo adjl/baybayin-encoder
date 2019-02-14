@@ -2,11 +2,6 @@ from app.chars import chars
 from app.symbols import symbols
 
 
-vowel_patterns = set([
-    'aa', 'ii', 'ee', 'uu', 'oo',
-    'ie', 'ei', 'uo', 'ou'])
-
-
 def parse_syllable(syllable):
     def get_index(i, func):
         while i < len(syllable) and func(syllable[i]):
