@@ -44,8 +44,7 @@ def test_transform_non_trailing_consonant(consonant):
 @settings(max_examples=num_chars['consonant'] * num_chars['vowel'])
 def test_transform_non_trailing_consonant_then_hyphen(consonant, vowel):
     expected = ''.join([consonant, symbols['non_trailing_consonant']])
-    assert(transform([consonant, symbols['hyphen'], vowel]) ==
-           [expected, vowel])
+    assert transform([consonant, '-', vowel]) == [expected, vowel]
 
 
 @given(strategies['consonant'], strategies['vowel'])

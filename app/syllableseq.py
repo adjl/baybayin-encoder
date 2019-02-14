@@ -50,7 +50,7 @@ class SyllableSeq(deque):
     def is_non_trailing_consonant(self):
         if not self[0].is_consonant() or len(self) == 1:
             return False
-        return self[1].is_consonant() or self[1] == symbols['hyphen']
+        return self[1].is_consonant() or self[1] == '-'
 
     def pop_nth(self, n):
         self.rotate(-n)

@@ -71,7 +71,7 @@ class Syllable:
         return self.modifier == symbols['double_syllable']
 
     def is_hyphen(self):
-        return self.is_modifier() and self.modifier == symbols['hyphen']
+        return self.is_modifier() and self.modifier == '-'
 
     @property
     def consonant(self):
