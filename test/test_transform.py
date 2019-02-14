@@ -65,9 +65,11 @@ def test_transform_double_vowel(vowel):
 @given(strategies['consonant'], strategies['vowel'], strategies['vowel'])
 @settings(max_examples=num_chars['consonant'] * 9)
 def test_transform_vowel_pattern(consonant, vowel1, vowel2):
+    def concat(*vowels):
+        return [''.join([consonant, vowel]) for vowel in vowels]
     vowel_pattern = ''.join([vowel1, vowel2])
     assume(vowel_pattern in vowel_patterns)
-    syllable1, syllable2 = [''.join([consonant, v]) for v in [vowel1, vowel2]]
+    syllable1, syllable2 = concat(vowel1, vowel2)
     expected = ''.join([syllable1, symbols[vowel_pattern]])
     assert transform([syllable1, syllable2]) == [expected]
 
@@ -75,10 +77,12 @@ def test_transform_vowel_pattern(consonant, vowel1, vowel2):
 @given(strategies['consonant'], strategies['vowel'], strategies['vowel'])
 @settings(max_examples=num_chars['consonant'] * 8)
 def test_transform_double_syllable_consonant_stop(consonant, vowel1, vowel2):
+    def concat(*vowels):
+        return [''.join([consonant, vowel]) for vowel in vowels]
     assume(all(vowel in 'eiou' for vowel in [vowel1, vowel2]))
     vowel_pattern = ''.join([vowel1, vowel2])
     assume(vowel_pattern in vowel_patterns)
-    syllable1, syllable2 = [''.join([consonant, v]) for v in [vowel1, vowel2]]
+    syllable1, syllable2 = concat(vowel1, vowel2)
     expected = ''.join(
         [syllable1, symbols[vowel_pattern], symbols['consonant_stop']])
     assert transform([syllable1, syllable2, consonant]) == [expected]
