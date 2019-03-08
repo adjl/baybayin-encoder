@@ -41,6 +41,14 @@ class Syllable:
     def _set_fields(self):
         self._fields = [self.consonant, self.vowel, self.modifier]
 
+    def transcribe(self):
+        if self.is_vowel():
+            self.vowel = self.vowel.upper()
+        else:
+            self.consonant = symbols[self.consonant]
+            self.vowel = '' if self.vowel == 'a' else self.vowel
+        return str(self)
+
     def set_modifier(self, modifier_key):
         self.modifier = symbols[modifier_key]
 
@@ -79,6 +87,10 @@ class Syllable:
     @property
     def modifier(self):
         return self._modifier
+
+    @consonant.setter
+    def consonant(self, consonant):
+        self._consonant = consonant
 
     @vowel.setter
     def vowel(self, vowel):

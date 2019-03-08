@@ -59,3 +59,10 @@ def transform(syllables):
 
         transformed.append(syllables.popleft())
     return transformed
+
+
+@transform_args(
+    transform=Syllable,
+    seq_out=lambda s: ''.join(s))  # pylint: disable=unnecessary-lambda
+def transcribe(syllables):
+    return [syllable.transcribe() for syllable in syllables]
