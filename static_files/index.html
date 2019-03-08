@@ -1,0 +1,137 @@
+<!doctype html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(() => {
+      $('[name="input"]').on('input', () => {
+        $.post({
+          url: '/',
+          data: $('form').serialize(),
+          success: output => $('[name="output"]').val(output)
+        });
+      });
+    });
+  </script>
+  <style type="text/css">
+    @font-face {
+      font-family: baybayin;
+      src: url(fonts/BaybayinModernDoctrina.ttf);
+    }
+
+    .baybayin {
+      font-family: baybayin;
+      font-size: 1.2;
+    }
+
+    .english {
+      font-family: sans-serif;
+      font-size: 1.2;
+    }
+
+    body {
+      background: #efefef;
+      margin: 0px;
+      width: 100%;
+      font-family: sans-serif;
+    }
+
+    header {
+      text-align: center;
+      font-size: 2em;
+    }
+
+    div.translate-area {
+      position: absolute;
+      padding: 0px;
+      bottom: -0.5em;
+      width: 50%;
+    }
+
+    div.translate-source {
+      left: 0px;
+      color: #333333;
+    }
+
+    div.translate-target {
+      right: 0px;
+      color: #777777;
+    }
+
+    .translate-area header {
+      display: inline-block;
+      margin: 0.2em;
+      min-width: 4em;
+      text-align: center;
+      font-size: 1.5em;
+      color: #4285f4;
+      font-variant: small-caps;
+      border-bottom: 3px solid #4F89E9;
+    }
+
+    .translate-area textarea {
+      width: 100%;
+      height: 8em;
+      border: none;
+      border-top: 1px solid #777777;
+      resize: none;
+      margin: 0.2em;
+      outline: none;
+      font-size: 2em;
+    }
+
+    .translate-source textarea {
+      background-color: #ffffff;
+    }
+
+    .translate-target textarea {
+      background-color: #f5f5f5;
+    }
+
+    .rounded-box {
+      border-radius: 0.5em;
+      min-width: 90%;
+      overflow: hidden;
+      background: white;
+      box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    header.rounded-box {
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      margin: 0em 0%;
+      padding: 0.5em;
+    }
+
+    #translate-content {
+      position: relative;
+      min-height: 20em;
+      text-align: left;
+      margin: 2em 5%;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="rounded-box">
+    <span class="english">Baybayin</span>
+    <span class="baybayin">Magtitik</span>
+  </header>
+  <div id="translate-content" class="rounded-box">
+    <form action="/" method="post">
+      <div class="translate-area translate-source">
+        <header>
+          filipino
+        </header>
+        <textarea name="input" class="english" placeholder="Type here" autofocus></textarea>
+      </div>
+      <div class="translate-area translate-target">
+        <header>
+          baybayin
+        </header>
+        <textarea name="output" readonly class="baybayin"></textarea>
+      </div>
+    </form>
+  </div>
+</body>
