@@ -38,7 +38,7 @@ def transform(syllables):
             syllables.pop_nth(2)
 
         if syllables.is_double_syllable():
-            if syllables[0].is_vowel() and syllables[0].modifier in 'eiou':
+            if syllables[0].is_vowel():
                 syllables[0].set_modifier('double_syllable')
             else:
                 syllables[0].set_modifier(syllables.concat_vowels())
