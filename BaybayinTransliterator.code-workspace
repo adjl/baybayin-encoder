@@ -3,7 +3,7 @@
 		"path": "."
 	}],
 	"settings": {
-		"python.pythonPath": "~/.local/share/virtualenvs/BaybayinTransliterator-zuJIeYLf/bin/python",
+		"python.pythonPath": "/home/adjl/.local/share/virtualenvs/BaybayinTransliterator-zuJIeYLf/bin/python",
 		"terminal.integrated.cwd": "."
 	}
 }
