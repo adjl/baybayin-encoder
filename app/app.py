@@ -34,27 +34,23 @@ def transform(syllables):
             syllables.popleft()
 
         if syllables.is_triple_syllable():
-            syllables[1].set_modifier('double_syllable')
+            syllables[1].set_modifier(syllables.concat_vowels(1, 3))
             syllables.pop_nth(2)
 
         if syllables.is_double_syllable():
-            if syllables[0].is_vowel():
-                syllables[0].set_modifier('double_syllable')
-            else:
-                syllables[0].set_modifier(syllables.concat_vowels())
+            syllables[0].set_modifier(syllables.concat_vowels())
             syllables.pop_nth(1)
 
+        # FIXME: 'sasas' should be 's;' not 'sa-'
         if syllables.is_consonant_stop():
             if syllables[0].is_double_syllable():
-                syllables[0].set_modifier('double_consonant_stop')
-            else:
-                syllables[0].append_modifier('consonant_stop')
+                syllables[0].set_modifier(syllables.concat_vowels())
+            syllables[0].append_modifier('consonant_stop')
             syllables.pop_nth(1)
 
         if syllables.is_trailing_consonant():
             syllables[0].set_modifier('trailing_consonant')
-
-        if syllables.is_non_trailing_consonant():
+        elif syllables.is_non_trailing_consonant():
             syllables[0].set_modifier('non_trailing_consonant')
 
         transformed.append(syllables.popleft())
@@ -66,3 +62,7 @@ def transform(syllables):
     seq_out=lambda s: ''.join(s))  # pylint: disable=unnecessary-lambda
 def transcribe(syllables):
     return [syllable.transcribe() for syllable in syllables]
+
+
+def transliterate(string):
+    return transcribe(map(str, transform(tokenise(string))))

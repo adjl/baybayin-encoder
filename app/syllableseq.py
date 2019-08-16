@@ -13,9 +13,9 @@ class SyllableSeq(deque):
     def __eq__(self, syllables):
         return [str(syllable) for syllable in self] == syllables
 
-    def concat_vowels(self):
+    def concat_vowels(self, start=0, stop=2):
         return ''.join([syllable.vowel for syllable in
-                        islice(self, 0, 2) if syllable.vowel])
+                        islice(self, start, stop) if syllable.vowel])
 
     def are_all(self, func, n):
         return all(func(syllable) for syllable in islice(self, 0, n))
@@ -25,6 +25,7 @@ class SyllableSeq(deque):
             return False
         return (self.are_all(Syllable.is_syllable, 3) and
                 self.are_all(lambda s: not s.has_modifier(), 3) and
+                self.concat_vowels(1, 3) in symbols and
                 self[0] == self[1] == self[2])
 
     def is_double_syllable(self):
@@ -49,7 +50,7 @@ class SyllableSeq(deque):
     def is_non_trailing_consonant(self):
         if not self[0].is_consonant() or len(self) == 1:
             return False
-        return self[1].is_consonant() or self[1] == '-'
+        return self[0].is_consonant() or self[1] == '-'
 
     def pop_nth(self, n):
         self.rotate(-n)

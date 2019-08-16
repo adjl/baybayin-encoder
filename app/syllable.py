@@ -1,8 +1,13 @@
+import string
+
 from app.chars import chars
 from app.symbols import symbols
 
 
 def parse_syllable(syllable):
+    if isinstance(syllable, Syllable):
+        return syllable.consonant, syllable.vowel, syllable.modifier
+
     def get_index(i, func):
         while i < len(syllable) and func(syllable[i]):
             i += 1
@@ -46,7 +51,8 @@ class Syllable:
             self.vowel = self.vowel.upper()
         else:
             self.consonant = symbols[self.consonant]
-            self.vowel = '' if self.vowel == 'a' else self.vowel
+            if self.vowel == 'a' or self.modifier and self.modifier[0] in string.digits:
+                self.vowel = ''
         return str(self)
 
     def set_modifier(self, modifier_key):

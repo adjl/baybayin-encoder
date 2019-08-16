@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-import os.path
-
-import app.app
-
 from bottle import request
 from bottle import route
 from bottle import run
 from bottle import static_file
+
+from app import app
 
 
 @route('/')
@@ -17,7 +15,7 @@ def index():
 
 @route('/', method='post')
 def index_post():
-    return ''.join(map(str, app.app.transform(request.forms.get('input'))))
+    return app.transliterate(request.forms.get('input'))
 
 
 @route('/fonts/<font_name:re:[a-zA-Z]+>.ttf')
