@@ -7,6 +7,9 @@ verify_ssl = true
 autopep8 = "*"
 bandit = "*"
 hypothesis = "*"
+ipykernel = "*"
+isort = "*"
+pep8 = "*"
 prospector = "*"
 pydocstyle = "*"
 pylama = "*"
@@ -15,6 +18,7 @@ pytest = "*"
 
 [packages]
 bottle = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.7"
