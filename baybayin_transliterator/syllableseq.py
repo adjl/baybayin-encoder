@@ -1,8 +1,8 @@
 from collections import deque
 from itertools import islice
 
-from baybayin_transliterator import Syllable
-from baybayin_transliterator import symbols
+from .syllable import Syllable
+from .symbol import symbols
 
 
 class SyllableSeq(deque):

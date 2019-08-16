@@ -1,15 +1,15 @@
 import re
 
-from test.util import num_chars
-from test.util import num_examples
-from test.util import strategies
-from test.util import syllable_re
-
 from hypothesis import assume
 from hypothesis import given
 from hypothesis import settings
 
 from baybayin_transliterator import tokenise
+
+from .util import num_chars
+from .util import num_examples
+from .util import strategies
+from .util import syllable_re
 
 
 def test_tokenise_empty_seq():

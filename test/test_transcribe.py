@@ -1,12 +1,12 @@
-from test.util import num_chars
-from test.util import strategies
-
 from hypothesis import given
 from hypothesis import settings
 from hypothesis.strategies import from_regex
 
 from baybayin_transliterator import symbols
 from baybayin_transliterator import transcribe
+
+from .util import num_chars
+from .util import strategies
 
 
 @given(strategies['vowel'])
