@@ -1,10 +1,10 @@
 from collections import deque
 
-from app.chars import chars
-from app.chars import get_char_type
-from app.syllable import Syllable
-from app.syllableseq import SyllableSeq
-from app.utils import transform_args
+from baybayin_transliterator import Syllable
+from baybayin_transliterator import SyllableSeq
+from baybayin_transliterator import chars
+from baybayin_transliterator import get_char_type
+from baybayin_transliterator import transform_args
 
 
 @transform_args(transform=str.lower)

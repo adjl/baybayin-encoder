@@ -1,5 +1,5 @@
-from app.chars import chars
-from app.symbols import symbols
+from baybayin_transliterator import chars
+from baybayin_transliterator import symbols
 
 
 def parse_syllable(syllable):
