@@ -39,7 +39,7 @@ class Syllable:
         return str(self) == syllable
 
     def _set_fields(self):
-        self._fields = [self.consonant, self.vowel, self.modifier]
+        self._fields = (self.consonant, self.vowel, self.modifier)
 
     def transcribe(self):
         if self.is_vowel():

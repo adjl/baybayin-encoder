@@ -1,0 +1,64 @@
+Awit 50
+
+Akoy kaawaan , O mahal kong Diyos
+    sang-ayon sa iyong kagandahang-loob
+manga kasalanan koy iyong pawiin
+    ayon din sa iyong pag-ibig sa akin
+Linisin mo sana ang aking karumhan
+    at patawarin mong aking kasalanan
+
+Manga pagkakasala koy kinikilala
+    di ko malilimutan , laging ala\
+Sa iyo lang ako nagkasalang tunay
+    at ang ginawa koy di mo kinalugdan
+kaya may katuwiran ka na akoy hatulan
+    marapat na akoy iyong parusahan
+Akoy masama na buhat nang isilang
+    makasalanan na nang akoy iluwal
+
+Nais mo sa akiy isang pusong tapat
+    pus\in mo ako ng dunong mong wagas
+Ako a/ linisin , sala koy hugasan
+    at akoy puputi nang lubus\an
+Sa galak at tuwa ako a/ pus\in
+    butong nanghihinay muling palakasin
+Ang kasalanan koy iyo nang limutin
+    lahat kong nagawang masamay pawiin
+
+Isang pusong tapat sa akiy likhain
+    bigyan mo , O Diyos , ng bagong dam\in
+Sa iyong harapay huwag akong alisin
+    iyong banal na Espirituy paghariin
+Ang galak na dulot ng iyong pagliligtas
+    ibalik at ako poy gawin mong tapat
+
+Kung magkagayon na , aking tuturuang
+    sa iyo lumapit ang makasalanan
+Ingatan mo ako , Tagapagligtas ko
+    at aking ihahayag ang pagliligtas mo
+
+Tulungan mo akong makapagsalita
+    at pupurihin ka sa gitna ng madla
+Hindi mo na nais ang manga handog
+    di ka nalulugod , sa haing sinunog
+ang handog ko , O Diyos , na ka\dapat\
+    a/ ang pakumbabat pusong mapagtapat
+
+Iyong kahabagan , O Diyos , ang Zion
+    at ang Jerusalem a/ muling ibangon
+At kung magkagayon , ang handog na haing
+    dala sa dambana , torong susunugin
+    malugod na itoy iyong tatanggapin
+
+(MBBTAG-DC)
+
+// Incomplete
+// ay -> a/
+// mga -> manga
+// alaala -> ala\
+// puspusin -> pus=\in
+// [,;.!?]
+// ako'y >> ' -> ?
+// pus=\In/
+// lubus=\An/
+// dm=\In/

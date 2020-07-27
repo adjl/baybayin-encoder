@@ -11,14 +11,16 @@ strategies = {
     'punctuation': from_regex(r'[,.?!<>()]', fullmatch=True),
     'vowel': from_regex(r'[aeiou]', fullmatch=True),
     'consonant': from_regex(r'[bdf-hj-npr-tvwyz]|ñ|ng|ts', fullmatch=True),
-    'syllable': from_regex(syllable_re, fullmatch=True)}
+    'syllable': from_regex(syllable_re, fullmatch=True)
+}
 
 num_chars = {
     'whitespace': 6,  # \s regex: len([ \t\n\r\f\v]) == 6
     'punctuation': 8,
     'vowel': 5,
     'consonant': 21,
-    'syllable': 131}  # 21 consonants * 5 vowels + 21 + 5
+    'syllable': 131  # 21 consonants * 5 vowels + 21 + 5
+}
 
 
 def num_examples(num):

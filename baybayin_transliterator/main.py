@@ -61,8 +61,7 @@ def transform(syllables):
     return transformed
 
 
-@transform_args(
-    transform=Syllable,
-    seq_out=lambda s: ''.join(s))  # pylint: disable=unnecessary-lambda
+@transform_args(transform=Syllable,
+                seq_out=lambda s: ''.join(s))  # pylint: disable=unnecessary-lambda
 def transcribe(syllables):
-    return [syllable.transcribe() for syllable in syllables]
+    return tuple(syllable.transcribe() for syllable in syllables)

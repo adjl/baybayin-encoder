@@ -11,11 +11,11 @@ class SyllableSeq(deque):
         super().__init__(syllables)
 
     def __eq__(self, syllables):
-        return [str(syllable) for syllable in self] == syllables
+        return tuple(str(syllable) for syllable in self) == syllables
 
     def concat_vowels(self):
-        return ''.join([syllable.vowel for syllable in
-                        islice(self, 0, 2) if syllable.vowel])
+        return ''.join(
+            (syllable.vowel for syllable in islice(self, 0, 2) if syllable.vowel))
 
     def are_all(self, func, n):
         return all(func(syllable) for syllable in islice(self, 0, n))

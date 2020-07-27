@@ -1,0 +1,2 @@
+Background: #ECE1CA
+Text: #645032
